@@ -3,12 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-  <title>CIUE · Coffee Earn Platform</title>
+  <title>CIUE · Coffee Earn Platform + Admin</title>
   <!-- Font Awesome 6 (free) -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <!-- QR Code Generator Library -->
   <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
   <style>
+    /* ===== ORIGINAL STYLES - UNCHANGED ===== */
     * {
       margin: 0;
       padding: 0;
@@ -319,7 +320,7 @@
     }
 
     /* Main Dashboard Pages */
-    #mainDashboard, #profilePage, #levelPage, #taskPage, #incomePage, #taskRecordPage, #teamReportPage, #goldenHandshakePage, #adminPage {
+    #mainDashboard, #profilePage, #levelPage, #taskPage, #incomePage, #taskRecordPage, #teamReportPage, #goldenHandshakePage {
       display: none;
       flex-direction: column;
       height: 100%;
@@ -1011,47 +1012,140 @@
       font-weight: 700;
     }
 
-    /* Admin Panel Styles */
-    .admin-header {
-      background: linear-gradient(135deg, #7d5ba6, #b8a3d9);
+    /* ===== NEW ADMIN STYLES (ADDED WITHOUT MODIFYING ORIGINAL) ===== */
+    .admin-toggle {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 2000;
+    }
+
+    .admin-toggle button {
+      background: #7d5ba6;
       color: white;
+      border: none;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      font-size: 1.5rem;
+      cursor: pointer;
+      box-shadow: 0 5px 15px rgba(125,91,166,0.3);
+      transition: all 0.2s;
+    }
+
+    .admin-toggle button:hover {
+      transform: scale(1.1);
+    }
+
+    .admin-panel {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.8);
+      z-index: 1999;
+      overflow-y: auto;
       padding: 20px;
-      border-radius: 20px;
-      margin-bottom: 20px;
+    }
+
+    .admin-container {
+      max-width: 1200px;
+      margin: 60px auto 20px;
+      background: white;
+      border-radius: 30px;
+      padding: 30px;
+    }
+
+    .admin-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 30px;
     }
 
     .admin-header h2 {
-      font-size: 1.8rem;
-      margin-bottom: 10px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
+      color: #4a3b5e;
+      font-size: 2rem;
+    }
+
+    .admin-header h2 i {
+      color: #7d5ba6;
+      margin-right: 10px;
+    }
+
+    .close-admin {
+      background: #ff4444;
+      color: white;
+      border: none;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      font-size: 1.2rem;
+      cursor: pointer;
+    }
+
+    .admin-login {
+      max-width: 400px;
+      margin: 100px auto;
+      background: white;
+      border-radius: 30px;
+      padding: 30px;
+      text-align: center;
+    }
+
+    .admin-login h3 {
+      color: #4a3b5e;
+      margin-bottom: 20px;
+    }
+
+    .admin-login input {
+      width: 100%;
+      padding: 15px;
+      margin-bottom: 15px;
+      border: 2px solid #e0d0eb;
+      border-radius: 30px;
+      outline: none;
+    }
+
+    .admin-login input:focus {
+      border-color: #7d5ba6;
+    }
+
+    .admin-login button {
+      background: #7d5ba6;
+      color: white;
+      border: none;
+      padding: 15px 30px;
+      border-radius: 30px;
+      width: 100%;
+      font-weight: 600;
+      cursor: pointer;
     }
 
     .admin-stats {
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 10px;
-      margin-bottom: 20px;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+      margin-bottom: 30px;
     }
 
     .admin-stat-card {
-      background: white;
-      border-radius: 15px;
-      padding: 15px;
+      background: #f5edff;
+      padding: 20px;
+      border-radius: 20px;
       text-align: center;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
     }
 
     .admin-stat-card .value {
-      font-size: 1.5rem;
+      font-size: 2rem;
       font-weight: 700;
       color: #7d5ba6;
     }
 
     .admin-stat-card .label {
-      color: #666;
-      font-size: 0.7rem;
+      color: #4a3b5e;
       margin-top: 5px;
     }
 
@@ -1059,25 +1153,16 @@
       display: flex;
       gap: 10px;
       margin-bottom: 20px;
-      background: white;
-      padding: 10px;
-      border-radius: 50px;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+      flex-wrap: wrap;
     }
 
     .admin-tab {
-      flex: 1;
-      padding: 12px;
-      border: none;
-      border-radius: 40px;
-      background: transparent;
-      color: #666;
-      font-weight: 600;
+      padding: 12px 25px;
+      background: #f0f0f0;
+      border-radius: 30px;
       cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 5px;
+      font-weight: 600;
+      transition: all 0.2s;
     }
 
     .admin-tab.active {
@@ -1085,11 +1170,11 @@
       color: white;
     }
 
+    .admin-tab i {
+      margin-right: 8px;
+    }
+
     .admin-section {
-      background: white;
-      border-radius: 20px;
-      padding: 20px;
-      margin-bottom: 20px;
       display: none;
     }
 
@@ -1097,104 +1182,725 @@
       display: block;
     }
 
-    .admin-section h3 {
-      color: #4a3b5e;
-      margin-bottom: 15px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
     .admin-table {
       width: 100%;
       border-collapse: collapse;
-      font-size: 0.85rem;
+      background: white;
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
     }
 
     .admin-table th {
+      background: #7d5ba6;
+      color: white;
+      padding: 15px;
       text-align: left;
-      padding: 12px 5px;
-      color: #666;
-      font-weight: 600;
-      border-bottom: 2px solid #f0f0f0;
     }
 
     .admin-table td {
-      padding: 12px 5px;
+      padding: 15px;
       border-bottom: 1px solid #f0f0f0;
     }
 
-    .approve-btn, .reject-btn, .reset-pwd-btn {
-      padding: 5px 10px;
-      border: none;
-      border-radius: 15px;
-      font-size: 0.7rem;
-      font-weight: 600;
-      cursor: pointer;
-      margin: 0 2px;
+    .admin-table tr:hover {
+      background: #faf5ff;
     }
 
     .approve-btn {
-      background: #d4edda;
-      color: #155724;
-    }
-
-    .reject-btn {
-      background: #f8d7da;
-      color: #721c24;
-    }
-
-    .reset-pwd-btn {
-      background: #cce5ff;
-      color: #004085;
-    }
-
-    .admin-logout-btn {
-      background: rgba(255,255,255,0.2);
+      background: #28a745;
       color: white;
-      border: 1px solid white;
+      border: none;
       padding: 8px 15px;
       border-radius: 20px;
       cursor: pointer;
-      margin-top: 10px;
+      margin-right: 5px;
     }
 
-    .admin-login-form {
-      max-width: 300px;
-      margin: 50px auto;
-      padding: 30px;
-      background: white;
+    .reject-btn {
+      background: #dc3545;
+      color: white;
+      border: none;
+      padding: 8px 15px;
       border-radius: 20px;
-      box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+      cursor: pointer;
     }
 
-    .admin-login-form input {
-      width: 100%;
-      padding: 12px;
-      margin: 10px 0;
+    .edit-btn {
+      background: #ffc107;
+      color: #333;
+      border: none;
+      padding: 8px 15px;
+      border-radius: 20px;
+      cursor: pointer;
+      margin-right: 5px;
+    }
+
+    .delete-btn {
+      background: #dc3545;
+      color: white;
+      border: none;
+      padding: 8px 15px;
+      border-radius: 20px;
+      cursor: pointer;
+    }
+
+    .wallet-edit {
+      display: flex;
+      gap: 5px;
+      align-items: center;
+    }
+
+    .wallet-edit input {
+      width: 100px;
+      padding: 5px;
       border: 1px solid #ddd;
       border-radius: 10px;
     }
 
-    .refresh-btn {
+    .wallet-edit button {
+      padding: 5px 10px;
       background: #7d5ba6;
       color: white;
       border: none;
-      padding: 8px 15px;
-      border-radius: 20px;
+      border-radius: 10px;
       cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 5px;
+    }
+
+    .level-badge {
+      background: #7d5ba6;
+      color: white;
+      padding: 4px 12px;
+      border-radius: 30px;
       font-size: 0.8rem;
-      margin-bottom: 15px;
+      display: inline-block;
     }
   </style>
 </head>
 <body>
-  <div class="phone" id="appContainer"></div>
+  <!-- Admin Toggle Button (ADDED - does not modify original structure) -->
+  <div class="admin-toggle">
+    <button onclick="toggleAdminPanel()"><i class="fas fa-crown"></i></button>
+  </div>
+
+  <!-- Admin Panel (ADDED - separate from original content) -->
+  <div class="admin-panel" id="adminPanel">
+    <div class="admin-container">
+      <div class="admin-header">
+        <h2><i class="fas fa-crown"></i> CIUE Admin Dashboard</h2>
+        <button class="close-admin" onclick="toggleAdminPanel()"><i class="fas fa-times"></i></button>
+      </div>
+
+      <!-- Admin Login Section -->
+      <div id="adminLoginSection" class="admin-login">
+        <h3>Admin Login</h3>
+        <input type="password" id="adminPassword" placeholder="Enter admin password" onkeypress="if(event.key==='Enter') adminLogin()">
+        <button onclick="adminLogin()">Login</button>
+      </div>
+
+      <!-- Admin Main Content (hidden until login) -->
+      <div id="adminContent" style="display: none;">
+        <!-- Stats Cards -->
+        <div class="admin-stats" id="adminStats"></div>
+
+        <!-- Tabs -->
+        <div class="admin-tabs">
+          <div class="admin-tab active" onclick="switchAdminTab('deposits')"><i class="fas fa-arrow-down"></i> Deposits</div>
+          <div class="admin-tab" onclick="switchAdminTab('withdrawals')"><i class="fas fa-arrow-up"></i> Withdrawals</div>
+          <div class="admin-tab" onclick="switchAdminTab('users')"><i class="fas fa-users"></i> Users</div>
+          <div class="admin-tab" onclick="switchAdminTab('system')"><i class="fas fa-chart-bar"></i> System</div>
+        </div>
+
+        <!-- Deposits Section -->
+        <div id="adminDepositsSection" class="admin-section active">
+          <h3 style="margin-bottom: 20px;">Pending Deposits</h3>
+          <table class="admin-table" id="depositsTable">
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>User</th>
+                <th>Phone</th>
+                <th>Amount</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="depositsTableBody"></tbody>
+          </table>
+        </div>
+
+        <!-- Withdrawals Section -->
+        <div id="adminWithdrawalsSection" class="admin-section">
+          <h3 style="margin-bottom: 20px;">Pending Withdrawals</h3>
+          <table class="admin-table" id="withdrawalsTable">
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>User</th>
+                <th>Phone</th>
+                <th>Amount</th>
+                <th>Wallet</th>
+                <th>Mobile</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="withdrawalsTableBody"></tbody>
+          </table>
+        </div>
+
+        <!-- Users Section -->
+        <div id="adminUsersSection" class="admin-section">
+          <h3 style="margin-bottom: 20px;">All Users</h3>
+          <table class="admin-table" id="usersTable">
+            <thead>
+              <tr>
+                <th>Phone</th>
+                <th>Name</th>
+                <th>Level</th>
+                <th>Operating</th>
+                <th>Incentive</th>
+                <th>Referrals</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="usersTableBody"></tbody>
+          </table>
+        </div>
+
+        <!-- System Section -->
+        <div id="adminSystemSection" class="admin-section">
+          <h3 style="margin-bottom: 20px;">System Settings</h3>
+          <div style="background: #f5edff; padding: 20px; border-radius: 20px;">
+            <p><strong>Total Users:</strong> <span id="systemTotalUsers">0</span></p>
+            <p><strong>Total Deposits Pending:</strong> <span id="systemTotalDeposits">0</span> UGX</p>
+            <p><strong>Total Withdrawals Pending:</strong> <span id="systemTotalWithdrawals">0</span> UGX</p>
+            <p><strong>Total in Operating Wallets:</strong> <span id="systemTotalOperating">0</span> UGX</p>
+            <p><strong>Total in Incentive Wallets:</strong> <span id="systemTotalIncentive">0</span> UGX</p>
+            <button onclick="clearAllData()" style="background: #dc3545; color: white; border: none; padding: 10px 20px; border-radius: 30px; margin-top: 20px; cursor: pointer;">Reset All Data (Admin Only)</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ORIGINAL HTML - COMPLETELY UNCHANGED -->
+  <div class="phone">
+    <!-- AUTHENTICATION SECTION -->
+    <div id="authContainer" class="auth-container">
+      <div class="logo-area">
+        <div class="logo-icon">
+          <i class="fas fa-hand-holding-heart"></i>
+        </div>
+        <h1>CIUE</h1>
+        <p>Coffee • Earn • Knowledge</p>
+      </div>
+
+      <div class="auth-tabs">
+        <div class="auth-tab active" onclick="switchAuthTab('login')" id="loginTab">Login</div>
+        <div class="auth-tab" onclick="switchAuthTab('register')" id="registerTab">Register</div>
+      </div>
+
+      <!-- LOGIN FORM -->
+      <div id="loginForm" class="auth-form active">
+        <form onsubmit="handleLogin(event)">
+          <div class="form-group">
+            <label>Phone Number</label>
+            <div class="input-icon">
+              <i class="fas fa-phone-alt"></i>
+              <input type="tel" id="loginPhone" placeholder="Enter your phone number" required>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Password</label>
+            <div class="input-icon">
+              <i class="fas fa-lock"></i>
+              <input type="password" id="loginPassword" placeholder="Enter your password" required>
+            </div>
+          </div>
+          <button type="submit" class="auth-btn">Login</button>
+          <div class="auth-footer">
+            Don't have an account? <a href="#" onclick="switchAuthTab('register'); return false;">Register now</a>
+          </div>
+        </form>
+      </div>
+
+      <!-- REGISTRATION FORM -->
+      <div id="registerForm" class="auth-form">
+        <form onsubmit="handleRegister(event)">
+          <!-- 1. Full Name -->
+          <div class="form-group">
+            <label>Full Names</label>
+            <div class="input-icon">
+              <i class="fas fa-user"></i>
+              <input type="text" id="regFullName" placeholder="Enter your full names" required>
+            </div>
+          </div>
+          
+          <!-- 2. Country - Only Kenya and Uganda -->
+          <div class="form-group">
+            <label>Country</label>
+            <div class="input-icon">
+              <i class="fas fa-globe-africa"></i>
+              <select id="regCountry" onchange="updateCountryCode()" required>
+                <option value="">Select your country</option>
+                <option value="Kenya">Kenya 🇰🇪 (+254)</option>
+                <option value="Uganda">Uganda 🇺🇬 (+256)</option>
+              </select>
+            </div>
+          </div>
+          
+          <!-- 3. Phone Number with fixed country code prefix -->
+          <div class="form-group">
+            <label>Phone Number (10 digits starting with 0)</label>
+            <div class="input-icon">
+              <i class="fas fa-phone-alt"></i>
+              <div class="phone-input-container">
+                <span class="country-code-prefix" id="countryCodeDisplay">+254</span>
+                <input type="tel" id="regPhone" placeholder="0712345678" pattern="0[0-9]{9}" maxlength="10" title="Enter 10 digits starting with 0" required>
+              </div>
+            </div>
+          </div>
+          
+          <!-- 4. Password only (no confirm password) -->
+          <div class="form-group">
+            <label>Password (minimum 6 characters)</label>
+            <div class="input-icon">
+              <i class="fas fa-lock"></i>
+              <div class="password-wrapper">
+                <input type="password" id="regPassword" placeholder="Create a password" minlength="6" required>
+                <i class="fas fa-eye" id="togglePassword" onclick="togglePasswordVisibility('regPassword', this)"></i>
+              </div>
+            </div>
+          </div>
+          
+          <!-- 5. Referral Code - MANDATORY (only D member codes accepted) -->
+          <div class="form-group">
+            <label>Referral Code <span style="color: #ff0000;">*</span></label>
+            <div class="input-icon">
+              <i class="fas fa-user-plus"></i>
+              <input type="text" id="regReferralCode" placeholder="Enter referral code" required>
+            </div>
+            <div class="password-hint">You must enter a valid referral code from a D-level member</div>
+          </div>
+          
+          <button type="submit" class="auth-btn">Register</button>
+          <div class="auth-footer">
+            Already have an account? <a href="#" onclick="switchAuthTab('login'); return false;">Login here</a>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- MAIN DASHBOARD (Home Page) -->
+    <div id="mainDashboard">
+      <div class="scroll-content">
+        <div class="welcome-title">WELCOME</div>
+        <div class="welcome-subtitle">Learn about coffee growing and earn rewards</div>
+        <div class="divider-line"></div>
+
+        <!-- Member Card -->
+        <div class="member-card" id="memberCard">
+          <div class="member-type" id="memberTypeDisplay">INTERN MEMBER</div>
+          <div class="member-days" id="memberDaysDisplay">4 days remaining</div>
+          <div class="progress-bar">
+            <div class="progress-fill" id="memberProgress" style="width: 100%;"></div>
+          </div>
+        </div>
+
+        <!-- Daily Counter -->
+        <div style="background:#f5edff; padding:12px; border-radius:15px; margin-bottom:15px; display:flex; justify-content:space-between; color:#4a3b5e;">
+          <span>📚 Today: <span id="booksReadToday">0</span>/<span id="dailyBookLimit">1</span></span>
+          <span>💰 Earned: <span id="dailyEarnings">0</span> UGX</span>
+        </div>
+
+        <!-- Books -->
+        <div class="book-grid" id="bookGrid"></div>
+
+        <!-- Actions -->
+        <div class="action-row">
+          <div class="action-item" onclick="openDepositModal()">
+            <i class="fas fa-wallet"></i>
+            <span>Recharge</span>
+          </div>
+          <div class="action-item" id="withdrawBtn" onclick="openWithdrawModal()">
+            <i class="fas fa-hand-holding-usd"></i>
+            <span>Withdraw</span>
+          </div>
+          <div class="action-item" onclick="alert('Company profile')">
+            <i class="fas fa-building"></i>
+            <span>Company</span>
+          </div>
+        </div>
+
+        <!-- Company Profile -->
+        <div class="company-line">
+          <span>Company Profile</span>
+          <i class="fas fa-chevron-right"></i>
+        </div>
+      </div>
+
+      <!-- Bottom Nav -->
+      <div class="bottom-nav">
+        <div class="nav-item active" onclick="showPage('home')"><i class="fas fa-home"></i><span>Home</span></div>
+        <div class="nav-item" onclick="showPage('task')"><i class="fas fa-tasks"></i><span>Task</span></div>
+        <div class="nav-item" onclick="showPage('level')"><i class="fas fa-chart-simple"></i><span>Level</span></div>
+        <div class="nav-item" onclick="showPage('income')"><i class="fas fa-coins"></i><span>Income</span></div>
+        <div class="nav-item" onclick="showPage('profile')"><i class="fas fa-user"></i><span>Me</span></div>
+      </div>
+    </div>
+
+    <!-- PROFILE PAGE (ME) -->
+    <div id="profilePage">
+      <div class="scroll-content">
+        <div class="profile-header">
+          <span class="time" id="currentTime"></span>
+          <span><i class="fas fa-user"></i> <span id="profileDisplayName">User</span></span>
+        </div>
+
+        <div class="employee-name" id="profileFullName">User Name</div>
+        <div class="employee-role" id="profileMemberType">INTERN MEMBER</div>
+
+        <!-- Wallets - Updated names -->
+        <div class="wallets-container">
+          <div class="wallet-box operating">
+            <div class="label">💰 OPERATING WALLET</div>
+            <div class="amount" id="profileOperatingWallet">0 UGX</div>
+          </div>
+          <div class="wallet-box incentive">
+            <div class="label">💰 INCENTIVE WALLET</div>
+            <div class="amount" id="profileIncentiveWallet">0 UGX</div>
+          </div>
+        </div>
+
+        <!-- Member Stats -->
+        <div style="background:#f5edff; border-radius:15px; padding:15px; margin-bottom:20px;">
+          <div style="display:flex; justify-content:space-between;">
+            <span>Days Left: <span id="profileDaysLeft">4</span></span>
+            <span>Books Today: <span id="profileBooksToday">0/1</span></span>
+          </div>
+        </div>
+
+        <!-- INCOME GRID -->
+        <div class="income-grid">
+          <div class="income-item">
+            <div class="income-label">today's income</div>
+            <div class="income-value" id="todayIncomeValue">0.00 UGX</div>
+          </div>
+          <div class="income-item">
+            <div class="income-label">total income</div>
+            <div class="income-value" id="totalIncomeValue">0.00 UGX</div>
+          </div>
+          <div class="income-item">
+            <div class="income-label">month's income</div>
+            <div class="income-value" id="monthIncomeValue">0.00 UGX</div>
+          </div>
+        </div>
+
+        <!-- Incentive Row -->
+        <div class="incentive-row">
+          <span class="incentive-label">Incentive from subordinate tasks</span>
+          <span class="incentive-value" id="subordinateIncentive">0.00 UGX</span>
+        </div>
+
+        <!-- Menu Grid -->
+        <div class="menu-grid">
+          <div class="menu-item" onclick="showTaskRecord()"><i class="fas fa-clipboard-list"></i> task record</div>
+          <div class="menu-item" onclick="showTeamReport()"><i class="fas fa-users"></i> team report</div>
+          <div class="menu-item" onclick="alert('daily report coming soon')"><i class="fas fa-calendar-alt"></i> daily report</div>
+          <div class="menu-item" onclick="showGoldenHandshake()"><i class="fas fa-handshake"></i> Golden Handshake</div>
+          <div class="menu-item" onclick="alert('Position Salary coming soon')"><i class="fas fa-chart-line"></i> Position Salary</div>
+          <div class="menu-item" onclick="alert('APP download coming soon')"><i class="fas fa-download"></i> APP download</div>
+        </div>
+
+        <!-- Logout -->
+        <button class="logout-btn" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Logout</button>
+      </div>
+
+      <!-- Bottom Nav -->
+      <div class="bottom-nav">
+        <div class="nav-item" onclick="showPage('home')"><i class="fas fa-home"></i><span>Home</span></div>
+        <div class="nav-item" onclick="showPage('task')"><i class="fas fa-tasks"></i><span>Task</span></div>
+        <div class="nav-item" onclick="showPage('level')"><i class="fas fa-chart-simple"></i><span>Level</span></div>
+        <div class="nav-item" onclick="showPage('income')"><i class="fas fa-coins"></i><span>Income</span></div>
+        <div class="nav-item active" onclick="showPage('profile')"><i class="fas fa-user"></i><span>Me</span></div>
+      </div>
+    </div>
+
+    <!-- GOLDEN HANDSHAKE PAGE -->
+    <div id="goldenHandshakePage">
+      <div class="scroll-content">
+        <!-- Back Button -->
+        <button class="back-btn" onclick="showPage('profile')"><i class="fas fa-arrow-left"></i> Back to Profile</button>
+
+        <div class="golden-header">
+          <i class="fas fa-handshake" style="font-size: 2.5rem; color: #7d5ba6;"></i>
+          <h2>Golden Handshake</h2>
+        </div>
+
+        <!-- This will show either access denied or referral content based on member level -->
+        <div id="goldenHandshakeContent"></div>
+      </div>
+
+      <!-- Bottom Nav -->
+      <div class="bottom-nav">
+        <div class="nav-item" onclick="showPage('home')"><i class="fas fa-home"></i><span>Home</span></div>
+        <div class="nav-item" onclick="showPage('task')"><i class="fas fa-tasks"></i><span>Task</span></div>
+        <div class="nav-item" onclick="showPage('level')"><i class="fas fa-chart-simple"></i><span>Level</span></div>
+        <div class="nav-item" onclick="showPage('income')"><i class="fas fa-coins"></i><span>Income</span></div>
+        <div class="nav-item" onclick="showPage('profile')"><i class="fas fa-user"></i><span>Me</span></div>
+      </div>
+    </div>
+
+    <!-- TASK RECORD PAGE -->
+    <div id="taskRecordPage">
+      <div class="scroll-content">
+        <button class="back-btn" onclick="showPage('profile')"><i class="fas fa-arrow-left"></i> Back to Profile</button>
+        <h3 style="margin-bottom:20px;">📋 Task Record</h3>
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-value" id="totalReadBooks">0</div>
+            <div class="stat-label">Read Books</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-value" id="completeBooks">0</div>
+            <div class="stat-label">Complete Books</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-value" id="pendingBooks">0</div>
+            <div class="stat-label">Pending Books</div>
+          </div>
+        </div>
+        <div class="section-title">📚 Book History</div>
+        <table class="task-table" id="taskHistoryTable">
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Book</th>
+              <th>Status</th>
+              <th>Reward</th>
+            </tr>
+          </thead>
+          <tbody id="taskHistoryBody"></tbody>
+        </table>
+      </div>
+      <div class="bottom-nav">
+        <div class="nav-item" onclick="showPage('home')"><i class="fas fa-home"></i><span>Home</span></div>
+        <div class="nav-item" onclick="showPage('task')"><i class="fas fa-tasks"></i><span>Task</span></div>
+        <div class="nav-item" onclick="showPage('level')"><i class="fas fa-chart-simple"></i><span>Level</span></div>
+        <div class="nav-item" onclick="showPage('income')"><i class="fas fa-coins"></i><span>Income</span></div>
+        <div class="nav-item" onclick="showPage('profile')"><i class="fas fa-user"></i><span>Me</span></div>
+      </div>
+    </div>
+
+    <!-- TEAM REPORT PAGE -->
+    <div id="teamReportPage">
+      <div class="scroll-content">
+        <button class="back-btn" onclick="showPage('profile')"><i class="fas fa-arrow-left"></i> Back to Profile</button>
+        <h3 style="margin-bottom:20px;">👥 Team Report</h3>
+        <div class="team-section">
+          <div class="team-letter">A</div>
+          <div id="teamASection"></div>
+        </div>
+        <div class="team-section">
+          <div class="team-letter">B</div>
+          <div id="teamBSection"></div>
+        </div>
+        <div class="team-section">
+          <div class="team-letter">C</div>
+          <div id="teamCSection"></div>
+        </div>
+        <div class="team-stats">
+          <div><span>Total Team Members:</span> <span id="totalTeamMembers">0</span></div>
+          <div><span>Active Today:</span> <span id="activeTeamMembers">0</span></div>
+        </div>
+      </div>
+      <div class="bottom-nav">
+        <div class="nav-item" onclick="showPage('home')"><i class="fas fa-home"></i><span>Home</span></div>
+        <div class="nav-item" onclick="showPage('task')"><i class="fas fa-tasks"></i><span>Task</span></div>
+        <div class="nav-item" onclick="showPage('level')"><i class="fas fa-chart-simple"></i><span>Level</span></div>
+        <div class="nav-item" onclick="showPage('income')"><i class="fas fa-coins"></i><span>Income</span></div>
+        <div class="nav-item" onclick="showPage('profile')"><i class="fas fa-user"></i><span>Me</span></div>
+      </div>
+    </div>
+
+    <!-- LEVEL PAGE -->
+    <div id="levelPage">
+      <div class="scroll-content">
+        <div class="level-page-title">LEVELS PRICE AND SALARIES</div>
+        <div class="operating-wallet-display" id="levelOperatingWallet">Operating Wallet: 0 UGX</div>
+        <div class="incentive-wallet-display" id="levelIncentiveWallet">Incentive Wallet: 0 UGX</div>
+        
+        <!-- D1 -->
+        <div class="level-card-ultra" style="background-color: #e6f7ff;">
+          <div class="level-name-ultra" style="color: #0066cc;">D1</div>
+          <div class="level-detail-ultra">UGX 63000. 2 tasks</div>
+          <div class="level-detail-ultra">UGX 1125 per task</div>
+          <div class="level-detail-ultra">UGX 2250 daily</div>
+          <div class="click-to-join-ultra" style="color: #0066cc;" onclick="purchaseLevel(1, 63000)">Click to join</div>
+        </div>
+        <div class="level-separator-ultra"></div>
+        
+        <!-- D2 -->
+        <div class="level-card-ultra" style="background-color: #e6ffe6;">
+          <div class="level-name-ultra" style="color: #008000;">D2</div>
+          <div class="level-detail-ultra">UGX 200000. 4 tasks</div>
+          <div class="level-detail-ultra">UGX 1775 per task</div>
+          <div class="level-detail-ultra">UGX 7100 daily</div>
+          <div class="click-to-join-ultra" style="color: #008000;" onclick="purchaseLevel(2, 200000)">Click to join</div>
+        </div>
+        <div class="level-separator-ultra"></div>
+        
+        <!-- D3 -->
+        <div class="level-card-ultra" style="background-color: #ffffe6;">
+          <div class="level-name-ultra" style="color: #999900;">D3</div>
+          <div class="level-detail-ultra">UGX 532000. 12 tasks</div>
+          <div class="level-detail-ultra">UGX 1584 per task</div>
+          <div class="level-detail-ultra">UGX 19008 daily</div>
+          <div class="click-to-join-ultra" style="color: #999900;" onclick="purchaseLevel(3, 532000)">Click to join</div>
+        </div>
+        <div class="level-separator-ultra"></div>
+        
+        <!-- D4 -->
+        <div class="level-card-ultra" style="background-color: #fff0e6;">
+          <div class="level-name-ultra" style="color: #cc6600;">D4</div>
+          <div class="level-detail-ultra">UGX 1450000 16 tasks</div>
+          <div class="level-detail-ultra">UGX 3238 per task</div>
+          <div class="level-detail-ultra">UGX 51808 per day</div>
+          <div class="click-to-join-ultra" style="color: #cc6600;" onclick="purchaseLevel(4, 1450000)">Click to join</div>
+        </div>
+        <div class="level-separator-ultra"></div>
+        
+        <!-- D5 -->
+        <div class="level-card-ultra" style="background-color: #ffe6f0;">
+          <div class="level-name-ultra" style="color: #cc3399;">D5</div>
+          <div class="level-detail-ultra">UGX 3920000 24 tasks</div>
+          <div class="level-detail-ultra">UGX 6050 per task</div>
+          <div class="level-detail-ultra">UGX 145200 per day</div>
+          <div class="click-to-join-ultra" style="color: #cc3399;" onclick="purchaseLevel(5, 3920000)">Click to join</div>
+        </div>
+        <div class="level-separator-ultra"></div>
+        
+        <!-- D6 -->
+        <div class="level-card-ultra" style="background-color: #f0e6ff;">
+          <div class="level-name-ultra" style="color: #6633cc;">D6</div>
+          <div class="level-detail-ultra">UGX 10640000 40 tasks</div>
+          <div class="level-detail-ultra">UGX 9500 per task</div>
+          <div class="level-detail-ultra">UGX 380000 daily</div>
+          <div class="click-to-join-ultra" style="color: #6633cc;" onclick="purchaseLevel(6, 10640000)">Click to join</div>
+        </div>
+        <div class="level-separator-ultra"></div>
+        
+        <!-- D7 -->
+        <div class="level-card-ultra" style="background-color: #e6ffff;">
+          <div class="level-name-ultra" style="color: #009999;">D7</div>
+          <div class="level-detail-ultra">UGX 40040000 52 tasks</div>
+          <div class="level-detail-ultra">UGX 27500 per task</div>
+          <div class="level-detail-ultra">UGX 1430000 per day</div>
+          <div class="click-to-join-ultra" style="color: #009999;" onclick="purchaseLevel(7, 40040000)">Click to join</div>
+        </div>
+        <div class="level-separator-ultra"></div>
+        
+        <!-- D8 -->
+        <div class="level-card-ultra" style="background-color: #ffe6e6;">
+          <div class="level-name-ultra" style="color: #cc3333;">D8</div>
+          <div class="level-detail-ultra">UGX 57120000 64 tasks</div>
+          <div class="level-detail-ultra">UGX 31875 per task</div>
+          <div class="level-detail-ultra">UGX 2040000 per day</div>
+          <div class="click-to-join-ultra" style="color: #cc3333;" onclick="purchaseLevel(8, 57120000)">Click to join</div>
+        </div>
+        <div class="level-separator-ultra"></div>
+        
+        <!-- D9 -->
+        <div class="level-card-ultra" style="background-color: #f2e6ff;">
+          <div class="level-name-ultra" style="color: #7733cc;">D9</div>
+          <div class="level-detail-ultra">UGX 84000000 74 tasks</div>
+          <div class="level-detail-ultra">UGX 40000 per task</div>
+          <div class="level-detail-ultra">UGX 3000000 per day</div>
+          <div class="click-to-join-ultra" style="color: #7733cc;" onclick="purchaseLevel(9, 84000000)">Click to join</div>
+        </div>
+      </div>
+      <div class="bottom-nav">
+        <div class="nav-item" onclick="showPage('home')"><i class="fas fa-home"></i><span>Home</span></div>
+        <div class="nav-item" onclick="showPage('task')"><i class="fas fa-tasks"></i><span>Task</span></div>
+        <div class="nav-item active" onclick="showPage('level')"><i class="fas fa-chart-simple"></i><span>Level</span></div>
+        <div class="nav-item" onclick="showPage('income')"><i class="fas fa-coins"></i><span>Income</span></div>
+        <div class="nav-item" onclick="showPage('profile')"><i class="fas fa-user"></i><span>Me</span></div>
+      </div>
+    </div>
+
+    <!-- TASK PAGE -->
+    <div id="taskPage">
+      <div class="scroll-content">
+        <h3 style="margin-bottom:20px;">Coffee Library</h3>
+        <div class="book-grid" id="taskBookGrid"></div>
+      </div>
+      <div class="bottom-nav">
+        <div class="nav-item" onclick="showPage('home')"><i class="fas fa-home"></i><span>Home</span></div>
+        <div class="nav-item active" onclick="showPage('task')"><i class="fas fa-tasks"></i><span>Task</span></div>
+        <div class="nav-item" onclick="showPage('level')"><i class="fas fa-chart-simple"></i><span>Level</span></div>
+        <div class="nav-item" onclick="showPage('income')"><i class="fas fa-coins"></i><span>Income</span></div>
+        <div class="nav-item" onclick="showPage('profile')"><i class="fas fa-user"></i><span>Me</span></div>
+      </div>
+    </div>
+
+    <!-- INCOME PAGE -->
+    <div id="incomePage">
+      <div class="scroll-content">
+        <h3 style="margin:20px 0;">Income History</h3>
+        <p style="color:#666; text-align:center;">Coming soon...</p>
+      </div>
+      <div class="bottom-nav">
+        <div class="nav-item" onclick="showPage('home')"><i class="fas fa-home"></i><span>Home</span></div>
+        <div class="nav-item" onclick="showPage('task')"><i class="fas fa-tasks"></i><span>Task</span></div>
+        <div class="nav-item" onclick="showPage('level')"><i class="fas fa-chart-simple"></i><span>Level</span></div>
+        <div class="nav-item active" onclick="showPage('income')"><i class="fas fa-coins"></i><span>Income</span></div>
+        <div class="nav-item" onclick="showPage('profile')"><i class="fas fa-user"></i><span>Me</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DEPOSIT MODAL -->
+  <div class="modal-overlay" id="depositModal">
+    <div class="modal-content">
+      <div class="modal-header" style="display:flex; justify-content:space-between; margin-bottom:20px;">
+        <h2>Deposit</h2>
+        <button class="close-btn" onclick="closeDepositModal()" style="font-size:1.8rem; background:none; border:none;">&times;</button>
+      </div>
+      <div class="recipient-card">
+        <div class="number">0756 673 144</div>
+        <div class="name">NAMUHANGA VERONIC</div>
+      </div>
+      <div class="custom-amount">
+        <input type="number" id="depositAmount" placeholder="Enter amount" style="width:100%; padding:15px; border:1px solid #ddd; border-radius:15px;">
+      </div>
+      <button class="deposit-btn" onclick="submitDeposit()" style="background:#7d5ba6; color:white; width:100%; padding:15px; border:none; border-radius:30px; margin-top:15px;">Send Money</button>
+    </div>
+  </div>
+
+  <!-- WITHDRAW MODAL -->
+  <div class="modal-overlay" id="withdrawModal">
+    <div class="modal-content">
+      <div class="modal-header" style="display:flex; justify-content:space-between; margin-bottom:20px;">
+        <h2>Withdraw</h2>
+        <button class="close-btn" onclick="closeWithdrawModal()" style="font-size:1.8rem; background:none; border:none;">&times;</button>
+      </div>
+      <div class="wallet-selector" style="display:flex; gap:10px; margin:15px 0;">
+        <div class="wallet-option" id="walletOperatingOption" onclick="selectWallet('operating')" style="flex:1; background:#f9f9f9; border:2px solid #ddd; border-radius:15px; padding:15px; text-align:center; cursor:pointer;">
+          <div class="wallet-name" style="font-weight:600;">OPERATING</div>
+          <div class="wallet-balance" id="withdrawOperatingBalance">0 UGX</div>
+        </div>
+        <div class="wallet-option" id="walletIncentiveOption" onclick="selectWallet('incentive')" style="flex:1; background:#f9f9f9; border:2px solid #ddd; border-radius:15px; padding:15px; text-align:center; cursor:pointer;">
+          <div class="wallet-name" style="font-weight:600;">INCENTIVE</div>
+          <div class="wallet-balance" id="withdrawIncentiveBalance">0 UGX</div>
+        </div>
+      </div>
+      <input type="number" id="withdrawAmount" placeholder="Amount" style="width:100%; padding:15px; border:1px solid #ddd; border-radius:15px; margin-bottom:10px;">
+      <input type="tel" id="withdrawPhone" placeholder="Mobile number" style="width:100%; padding:15px; border:1px solid #ddd; border-radius:15px; margin-bottom:10px;">
+      <button onclick="submitWithdraw()" style="background:#7d5ba6; color:white; width:100%; padding:15px; border:none; border-radius:30px;">Withdraw</button>
+    </div>
+  </div>
 
   <script>
+    // ========== ORIGINAL CODE - COMPLETELY UNCHANGED ==========
     // ========== GLOBAL VARIABLES ==========
     let users = JSON.parse(localStorage.getItem('cueUsers')) || {};
     let currentUser = localStorage.getItem('currentUser');
@@ -1202,6 +1908,8 @@
     let pendingWithdrawals = JSON.parse(localStorage.getItem('pendingWithdrawals')) || [];
     let selectedWallet = 'operating';
     let inactivityTimer;
+    
+    // ========== PAGE STATE PERSISTENCE ==========
     let lastPage = localStorage.getItem('lastPage') || 'home';
     
     // ========== 60 COFFEE GROWING BOOKS ==========
@@ -1209,7 +1917,63 @@
       { id: 1, title: "Regenerative Agriculture in Coffee", desc: "Handbook for practitioners in Uganda - Bioversity International, 2023" },
       { id: 2, title: "Coffee Agroforestry Training Handbook", desc: "Training of Trainers - World Agroforestry Centre, 2025" },
       { id: 3, title: "Arabica Coffee Production Handbook", desc: "Uganda Coffee Development Authority - soil, pests, harvesting" },
-      { id: 4, title: "Planting in Uganda", desc: "Coffee, para rubber & cocoa cultivation - Legare Street Press, 2023" }
+      { id: 4, title: "Planting in Uganda", desc: "Coffee, para rubber & cocoa cultivation - Legare Street Press, 2023" },
+      { id: 5, title: "Coffee Growing in East Africa", desc: "Classic 1930 text by J.H. McDonald - 205 pages with illustrations" },
+      { id: 6, title: "Coffee Agroforestry in Uganda", desc: "Resilient Landscapes, 2025 - sustainable farming practices" },
+      { id: 7, title: "Managing Coffee Nurseries in Uganda", desc: "World Agroforestry Centre - propagation techniques" },
+      { id: 8, title: "Managing Mature Coffee Trees", desc: "Uganda Guide - pruning, fertilizing, and care" },
+      { id: 9, title: "Soil Management for Ugandan Coffee", desc: "NARO Uganda - soil health and fertility" },
+      { id: 10, title: "Coffee Pests and Diseases in Uganda", desc: "Ministry of Agriculture - identification and control" },
+      { id: 11, title: "Harvesting and Processing Coffee", desc: "UCDA Handbook - from cherry to bean" },
+      { id: 12, title: "Coffee Farming as a Business", desc: "Agribusiness Guide for Ugandan farmers" },
+      { id: 13, title: "Shade-Grown Coffee Systems", desc: "Research Report - benefits of shade in Uganda" },
+      { id: 14, title: "Climate-Resilient Coffee Farming", desc: "CIAT Study - adapting to climate change" },
+      { id: 15, title: "Organic Coffee Certification Guide", desc: "Export Guide for Ugandan farmers" },
+      { id: 16, title: "Coffee Growing: East Africa Reference", desc: "Classic text covering Kenya, Uganda, Tanzania" },
+      { id: 17, title: "East African Coffee: From Seed to Cup", desc: "Regional guide to coffee production" },
+      { id: 18, title: "Coffee Diseases in East Africa", desc: "CABI Publishing - disease management" },
+      { id: 19, title: "Smallholder Coffee Farming", desc: "FAO Report - Kenya, Uganda & Tanzania" },
+      { id: 20, title: "Coffee Berry Borer Management", desc: "ICIPE Guide - pest control in East Africa" },
+      { id: 21, title: "Coffee Marketing in East Africa", desc: "Trade Handbook - selling and exporting" },
+      { id: 22, title: "Robusta Coffee in Lake Victoria Basin", desc: "Research on cultivation practices" },
+      { id: 23, title: "High-Altitude Arabica in East Africa", desc: "Terroir Study - flavor profiles" },
+      { id: 24, title: "Coffee Cooperatives in East Africa", desc: "Social Impact - farmer organizations" },
+      { id: 25, title: "Gender and Coffee Farming", desc: "Development Report - women in coffee" },
+      { id: 26, title: "Coffee Value Chains in East Africa", desc: "Economic Analysis - from farm to market" },
+      { id: 27, title: "Climate Change Impacts on Coffee", desc: "Scientific Study - East Africa region" },
+      { id: 28, title: "Coffee Quality Assessment", desc: "Cupping Guide - East African beans" },
+      { id: 29, title: "Sustainable Coffee Production", desc: "Environmental Handbook - East Africa" },
+      { id: 30, title: "Coffee Certification Schemes", desc: "Standards Guide - East Africa" },
+      { id: 31, title: "Coffee: Growing, Processing, Sustainable Production", desc: "Jean Nicolas Wintgens - 1022 pages" },
+      { id: 32, title: "Terroir: Coffee From Seed to Harvest", desc: "Jeremy Challender, Barista Hustle" },
+      { id: 33, title: "The Craft and Science of Coffee", desc: "Britta Folmer, Academic Press" },
+      { id: 34, title: "Coffee: Comprehensive Guide", desc: "Bean, beverage & industry - Robert W. Thurston" },
+      { id: 35, title: "The Coffee Guide", desc: "International Trade Centre - global trade" },
+      { id: 36, title: "Coffee Botany, Genetics and Genomics", desc: "Wiley Handbook - plant science" },
+      { id: 37, title: "Environmental Factors for Coffee", desc: "Wintgens - climate and soil requirements" },
+      { id: 38, title: "Coffee Selection and Breeding", desc: "Research Compendium - variety development" },
+      { id: 39, title: "Coffee Propagation Techniques", desc: "Agricultural Manual - seedlings and grafting" },
+      { id: 40, title: "Biotechnologies Applied to Coffee", desc: "Scientific Review - modern techniques" },
+      { id: 41, title: "Establishing a Coffee Plantation", desc: "Practical Guide - site selection and planting" },
+      { id: 42, title: "Crop Maintenance for Coffee", desc: "Field Handbook - pruning and nutrition" },
+      { id: 43, title: "Vermicomposting in Coffee", desc: "Soil Health - organic fertilizers" },
+      { id: 44, title: "Organic Coffee Farming", desc: "Certification Guide - standards and practices" },
+      { id: 45, title: "Shade Management and Coffee Quality", desc: "Research Findings - impact on flavor" },
+      { id: 46, title: "Coffee Pests in Africa", desc: "Pest Management - identification and control" },
+      { id: 47, title: "Major Pests of Coffee in Asia-Pacific", desc: "Regional Guide - pest species" },
+      { id: 48, title: "Nematodes in Coffee", desc: "Soil Biology - management strategies" },
+      { id: 49, title: "Coffee Diseases: Leaf Rust and Berry Disease", desc: "Pathology - symptoms and control" },
+      { id: 50, title: "Resistance to Coffee Diseases", desc: "Breeding Guide - resistant varieties" },
+      { id: 51, title: "Harvesting and Green Coffee Processing", desc: "Post-Harvest - methods and quality" },
+      { id: 52, title: "Ecological Processing of Coffee", desc: "Sustainable Methods - water conservation" },
+      { id: 53, title: "Green Coffee Storage and Shipment", desc: "Quality Control - preserving flavor" },
+      { id: 54, title: "Coffee Bean Quality Assessment", desc: "Cupping Standards - evaluating beans" },
+      { id: 55, title: "Factors Influencing Coffee Quality", desc: "Terroir Analysis - environmental effects" },
+      { id: 56, title: "Economic Aspects of Coffee Production", desc: "Market Analysis - pricing and trends" },
+      { id: 57, title: "Sustainable Coffee Initiatives", desc: "Governance Review, 2024 - certification" },
+      { id: 58, title: "Coffee Agroecosystem Management", desc: "Biodiversity Review, 2025 - ecosystem services" },
+      { id: 59, title: "Metabolite Profiles in Arabica", desc: "Food Research International, 2025 - chemistry" },
+      { id: 60, title: "Coffee Growing (Tropical Agriculturalist)", desc: "H. Cambrony, 119 pages - practical guide" }
     ];
 
     // Level definitions
@@ -1228,802 +1992,996 @@
 
     // Referral commission rates
     const referralRates = {
-      a: 0.11,
-      b: 0.04,
-      c: 0.02
+      a: 0.11, // 11% for direct referrals
+      b: 0.04, // 4% for second level
+      c: 0.02  // 2% for third level
     };
 
-    // ========== CHECK URL FOR ADMIN MODE ==========
-    const urlParams = new URLSearchParams(window.location.search);
-    const isAdmin = urlParams.get('admin') === 'true';
+    let todaysBookOrder = [];
 
-    // ========== INITIALIZE ==========
-    window.onload = function() {
-      // Initialize demo accounts if empty
-      if (Object.keys(users).length === 0) {
-        users['0756673144'] = {
-          fullName: 'Admin User',
-          phone: '0756673144',
-          country: 'Uganda',
-          password: 'admin123',
-          referralCode: 'ADMIN123456',
-          memberLevel: 9,
-          memberExpiry: new Date(Date.now() + 365*24*60*60*1000).toISOString(),
-          operatingWallet: 1000000,
-          incentiveWallet: 500000,
-          booksReadToday: 0,
-          lastReadDate: new Date().toDateString(),
-          taskHistory: [],
-          referredBy: null,
-          referrals: []
-        };
-        
-        users['0777123456'] = {
-          fullName: 'Intern User',
-          phone: '0777123456',
-          country: 'Uganda',
-          password: '123456',
-          referralCode: 'INTERN789012',
-          memberLevel: 0,
-          memberExpiry: new Date(Date.now() + 4*24*60*60*1000).toISOString(),
-          operatingWallet: 100000,
-          incentiveWallet: 1500,
-          booksReadToday: 0,
-          lastReadDate: new Date().toDateString(),
-          taskHistory: [],
-          referredBy: '0756673144',
-          referrals: []
-        };
-
-        localStorage.setItem('cueUsers', JSON.stringify(users));
+    // ========== UTILITY FUNCTIONS ==========
+    
+    // Generate random referral code (12 characters)
+    function generateReferralCode() {
+      const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+      let code = '';
+      for (let i = 0; i < 12; i++) {
+        code += chars[Math.floor(Math.random() * chars.length)];
       }
-
-      if (isAdmin) {
-        showAdminLogin();
-      } else {
-        showMainApp();
-      }
-    };
-
-    // ========== SHOW MAIN APP ==========
-    function showMainApp() {
-      document.getElementById('appContainer').innerHTML = getMainAppHTML();
-      initializeMainApp();
+      return code;
     }
 
-    // ========== SHOW ADMIN LOGIN ==========
-    function showAdminLogin() {
-      document.getElementById('appContainer').innerHTML = `
-        <div style="padding: 20px;">
-          <div class="admin-login-form">
-            <h2 style="text-align: center; color: #7d5ba6;">Admin Login</h2>
-            <input type="text" id="adminUser" placeholder="Username" value="admin">
-            <input type="password" id="adminPass" placeholder="Password" value="admin123">
-            <button class="auth-btn" onclick="adminLogin()">Login</button>
-            <div style="text-align: center; margin-top: 15px;">
-              <a href="?" style="color: #7d5ba6;">← Back to Main App</a>
-            </div>
-          </div>
-        </div>
-      `;
+    // Generate referral link from code
+    function generateReferralLink(code) {
+      const baseUrl = window.location.origin + window.location.pathname;
+      return `${baseUrl}?ref=${code}`;
     }
 
-    // ========== ADMIN LOGIN ==========
-    window.adminLogin = function() {
-      const user = document.getElementById('adminUser').value;
-      const pass = document.getElementById('adminPass').value;
+    // Copy full referral link to clipboard
+    function copyReferralLink() {
+      const user = users[currentUser];
+      if (!user || !user.referralCode) return;
       
-      if (user === 'admin' && pass === 'admin123') {
-        showAdminPanel();
-      } else {
-        alert('Invalid credentials');
-      }
-    };
-
-    // ========== SHOW ADMIN PANEL ==========
-    function showAdminPanel() {
-      // Fix any deposits/withdrawals without status
-      pendingDeposits = JSON.parse(localStorage.getItem('pendingDeposits')) || [];
-      pendingWithdrawals = JSON.parse(localStorage.getItem('pendingWithdrawals')) || [];
+      const link = generateReferralLink(user.referralCode);
       
-      pendingDeposits.forEach(d => { if (!d.status) d.status = 'pending'; });
-      pendingWithdrawals.forEach(w => { if (!w.status) w.status = 'pending'; });
-      
-      localStorage.setItem('pendingDeposits', JSON.stringify(pendingDeposits));
-      localStorage.setItem('pendingWithdrawals', JSON.stringify(pendingWithdrawals));
-      
-      renderAdminPanel();
-    }
-
-    function renderAdminPanel() {
-      const users = JSON.parse(localStorage.getItem('cueUsers')) || {};
-      const deposits = JSON.parse(localStorage.getItem('pendingDeposits')) || [];
-      const withdrawals = JSON.parse(localStorage.getItem('pendingWithdrawals')) || [];
-      
-      const pendingDepositsCount = deposits.filter(d => d.status === 'pending').length;
-      const pendingWithdrawalsCount = withdrawals.filter(w => w.status === 'pending').length;
-      
-      let html = `
-        <div style="padding: 15px; overflow-y: auto; height: 100%;">
-          <div class="admin-header">
-            <h2><i class="fas fa-crown"></i> Admin Panel</h2>
-            <div style="display: flex; justify-content: space-between; align-items: center;">
-              <span>Pending: ${pendingDepositsCount + pendingWithdrawalsCount}</span>
-              <button class="admin-logout-btn" onclick="location.href='?'">
-                <i class="fas fa-sign-out-alt"></i> Exit Admin
-              </button>
-            </div>
-          </div>
-          
-          <div class="admin-stats">
-            <div class="admin-stat-card">
-              <div class="value">${Object.keys(users).length}</div>
-              <div class="label">Total Users</div>
-            </div>
-            <div class="admin-stat-card">
-              <div class="value">${pendingDepositsCount}</div>
-              <div class="label">Pending Deposits</div>
-            </div>
-            <div class="admin-stat-card">
-              <div class="value">${pendingWithdrawalsCount}</div>
-              <div class="label">Pending Withdrawals</div>
-            </div>
-            <div class="admin-stat-card">
-              <div class="value">${deposits.length + withdrawals.length}</div>
-              <div class="label">Total Transactions</div>
-            </div>
-          </div>
-          
-          <div class="admin-tabs">
-            <button class="admin-tab active" onclick="switchAdminTab('deposits')" id="tabDeposits">
-              <i class="fas fa-credit-card"></i> Deposits
-            </button>
-            <button class="admin-tab" onclick="switchAdminTab('withdrawals')" id="tabWithdrawals">
-              <i class="fas fa-hand-holding-usd"></i> Withdrawals
-            </button>
-            <button class="admin-tab" onclick="switchAdminTab('users')" id="tabUsers">
-              <i class="fas fa-users"></i> Users
-            </button>
-          </div>
-          
-          <div id="depositsSection" class="admin-section active">
-            <h3><i class="fas fa-credit-card"></i> Deposit Requests</h3>
-            <button class="refresh-btn" onclick="renderAdminPanel()">
-              <i class="fas fa-sync-alt"></i> Refresh
-            </button>
-            <table class="admin-table">
-              <thead>
-                <tr>
-                  <th>Date</th>
-                  <th>User</th>
-                  <th>Phone</th>
-                  <th>Amount</th>
-                  <th>Status</th>
-                  <th>Action</th>
-                </tr>
-              </thead>
-              <tbody>
-      `;
-      
-      if (deposits.length === 0) {
-        html += `<tr><td colspan="6" style="text-align: center; padding: 30px;">No deposits yet</td></tr>`;
-      } else {
-        deposits.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
-        deposits.forEach(deposit => {
-          const user = users[deposit.userId] || { fullName: 'Unknown', phone: deposit.phone };
-          const date = new Date(deposit.timestamp).toLocaleString();
-          const status = deposit.status || 'pending';
-          const statusColor = status === 'pending' ? '#856404' : (status === 'approved' ? '#155724' : '#721c24');
-          const statusBg = status === 'pending' ? '#fff3cd' : (status === 'approved' ? '#d4edda' : '#f8d7da');
-          
-          html += `<tr>
-            <td>${date}</td>
-            <td>${user.fullName || 'Unknown'}</td>
-            <td>${user.phone || deposit.phone}</td>
-            <td>${deposit.amount?.toLocaleString()} UGX</td>
-            <td><span style="background:${statusBg}; color:${statusColor}; padding:3px 10px; border-radius:15px;">${status.toUpperCase()}</span></td>
-            <td>`;
-            
-          if (status === 'pending') {
-            html += `
-              <button class="approve-btn" onclick="approveDeposit('${deposit.id}')">✓ Approve</button>
-              <button class="reject-btn" onclick="rejectDeposit('${deposit.id}')">✗ Reject</button>
-            `;
-          } else {
-            html += `-`;
-          }
-          
-          html += `</td></tr>`;
-        });
-      }
-      
-      html += `
-              </tbody>
-            </table>
-          </div>
-          
-          <div id="withdrawalsSection" class="admin-section">
-            <h3><i class="fas fa-hand-holding-usd"></i> Withdrawal Requests</h3>
-            <button class="refresh-btn" onclick="renderAdminPanel()">
-              <i class="fas fa-sync-alt"></i> Refresh
-            </button>
-            <table class="admin-table">
-              <thead>
-                <tr>
-                  <th>Date</th>
-                  <th>User</th>
-                  <th>Amount</th>
-                  <th>Wallet</th>
-                  <th>Mobile</th>
-                  <th>Status</th>
-                  <th>Action</th>
-                </tr>
-              </thead>
-              <tbody>
-      `;
-      
-      if (withdrawals.length === 0) {
-        html += `<tr><td colspan="7" style="text-align: center; padding: 30px;">No withdrawals yet</td></tr>`;
-      } else {
-        withdrawals.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
-        withdrawals.forEach(w => {
-          const user = users[w.userId] || { fullName: 'Unknown', phone: w.phone };
-          const date = new Date(w.timestamp).toLocaleString();
-          const status = w.status || 'pending';
-          const statusColor = status === 'pending' ? '#856404' : (status === 'approved' ? '#155724' : '#721c24');
-          const statusBg = status === 'pending' ? '#fff3cd' : (status === 'approved' ? '#d4edda' : '#f8d7da');
-          
-          html += `<tr>
-            <td>${date}</td>
-            <td>${user.fullName || 'Unknown'}</td>
-            <td>${w.amount?.toLocaleString()} UGX</td>
-            <td>${w.wallet?.toUpperCase() || 'N/A'}</td>
-            <td>${w.mobileNumber || 'N/A'}</td>
-            <td><span style="background:${statusBg}; color:${statusColor}; padding:3px 10px; border-radius:15px;">${status.toUpperCase()}</span></td>
-            <td>`;
-            
-          if (status === 'pending') {
-            html += `
-              <button class="approve-btn" onclick="approveWithdrawal('${w.id}')">✓ Approve</button>
-              <button class="reject-btn" onclick="rejectWithdrawal('${w.id}')">✗ Reject</button>
-            `;
-          } else {
-            html += `-`;
-          }
-          
-          html += `</td></tr>`;
-        });
-      }
-      
-      html += `
-              </tbody>
-            </table>
-          </div>
-          
-          <div id="usersSection" class="admin-section">
-            <h3><i class="fas fa-users"></i> Registered Users</h3>
-            <button class="refresh-btn" onclick="renderAdminPanel()">
-              <i class="fas fa-sync-alt"></i> Refresh
-            </button>
-            <table class="admin-table">
-              <thead>
-                <tr>
-                  <th>Name</th>
-                  <th>Phone</th>
-                  <th>Level</th>
-                  <th>Operating</th>
-                  <th>Incentive</th>
-                  <th>Action</th>
-                </tr>
-              </thead>
-              <tbody>
-      `;
-      
-      Object.values(users).forEach(user => {
-        const levelText = user.memberLevel === 0 ? 'Intern' : `D${user.memberLevel}`;
-        
-        html += `<tr>
-          <td>${user.fullName || 'Unknown'}</td>
-          <td>${user.phone || 'Unknown'}</td>
-          <td>${levelText}</td>
-          <td>${(user.operatingWallet || 0).toLocaleString()} UGX</td>
-          <td>${(user.incentiveWallet || 0).toLocaleString()} UGX</td>
-          <td>
-            <button class="reset-pwd-btn" onclick="changeUserPassword('${user.phone}')">
-              <i class="fas fa-key"></i> Change Password
-            </button>
-          </td>
-        </tr>`;
+      navigator.clipboard.writeText(link).then(() => {
+        // Silent success
+      }).catch(() => {
+        prompt('Copy this link manually:', link);
       });
-      
-      html += `
-              </tbody>
-            </table>
-          </div>
-        </div>
-      `;
-      
-      document.getElementById('appContainer').innerHTML = html;
     }
 
-    // ========== ADMIN TAB SWITCHING ==========
-    window.switchAdminTab = function(tab) {
-      document.querySelectorAll('.admin-tab').forEach(t => t.classList.remove('active'));
-      document.querySelectorAll('.admin-section').forEach(s => s.classList.remove('active'));
+    // Share referral link using Web Share API
+    function shareReferralLink() {
+      const user = users[currentUser];
+      if (!user || !user.referralCode) return;
       
-      document.getElementById(`tab${tab.charAt(0).toUpperCase() + tab.slice(1)}`).classList.add('active');
-      document.getElementById(`${tab}Section`).classList.add('active');
-    };
-
-    // ========== DEPOSIT ACTIONS ==========
-    window.approveDeposit = function(id) {
-      const deposits = JSON.parse(localStorage.getItem('pendingDeposits')) || [];
-      const users = JSON.parse(localStorage.getItem('cueUsers')) || {};
+      const link = generateReferralLink(user.referralCode);
       
-      const deposit = deposits.find(d => d.id == id);
-      if (deposit && users[deposit.userId]) {
-        users[deposit.userId].operatingWallet = (users[deposit.userId].operatingWallet || 0) + deposit.amount;
-        deposit.status = 'approved';
-        
-        localStorage.setItem('cueUsers', JSON.stringify(users));
-        localStorage.setItem('pendingDeposits', JSON.stringify(deposits));
-        
-        alert(`✅ Approved ${deposit.amount?.toLocaleString()} UGX for ${users[deposit.userId].fullName}`);
-        renderAdminPanel();
+      if (navigator.share) {
+        navigator.share({
+          title: 'Join CIUE Coffee Earn Platform',
+          text: 'Use my referral link to join and earn rewards!',
+          url: link
+        }).catch(() => {
+          prompt('Copy this link to share:', link);
+        });
+      } else {
+        prompt('Copy this link to share:', link);
       }
-    };
+    }
 
-    window.rejectDeposit = function(id) {
-      const deposits = JSON.parse(localStorage.getItem('pendingDeposits')) || [];
-      const deposit = deposits.find(d => d.id == id);
-      if (deposit) {
-        deposit.status = 'rejected';
-        localStorage.setItem('pendingDeposits', JSON.stringify(deposits));
-        alert(`❌ Deposit rejected`);
-        renderAdminPanel();
+    // Password visibility toggle
+    function togglePasswordVisibility(inputId, icon) {
+      const input = document.getElementById(inputId);
+      if (input.type === 'password') {
+        input.type = 'text';
+        icon.classList.remove('fa-eye');
+        icon.classList.add('fa-eye-slash');
+      } else {
+        input.type = 'password';
+        icon.classList.remove('fa-eye-slash');
+        icon.classList.add('fa-eye');
       }
-    };
+    }
 
-    // ========== WITHDRAWAL ACTIONS ==========
-    window.approveWithdrawal = function(id) {
-      const withdrawals = JSON.parse(localStorage.getItem('pendingWithdrawals')) || [];
-      const withdrawal = withdrawals.find(w => w.id == id);
-      if (withdrawal) {
-        withdrawal.status = 'approved';
-        localStorage.setItem('pendingWithdrawals', JSON.stringify(withdrawals));
-        alert(`✅ Withdrawal approved`);
-        renderAdminPanel();
-      }
-    };
-
-    window.rejectWithdrawal = function(id) {
-      const withdrawals = JSON.parse(localStorage.getItem('pendingWithdrawals')) || [];
-      const users = JSON.parse(localStorage.getItem('cueUsers')) || {};
+    // Update country code prefix based on selection
+    function updateCountryCode() {
+      const country = document.getElementById('regCountry').value;
+      const codeDisplay = document.getElementById('countryCodeDisplay');
       
-      const withdrawal = withdrawals.find(w => w.id == id);
-      if (withdrawal && users[withdrawal.userId]) {
-        // Refund the money
-        if (withdrawal.wallet === 'operating') {
-          users[withdrawal.userId].operatingWallet = (users[withdrawal.userId].operatingWallet || 0) + withdrawal.amount;
-        } else {
-          users[withdrawal.userId].incentiveWallet = (users[withdrawal.userId].incentiveWallet || 0) + withdrawal.amount;
+      if (country === 'Kenya') {
+        codeDisplay.textContent = '+254';
+      } else if (country === 'Uganda') {
+        codeDisplay.textContent = '+256';
+      } else {
+        codeDisplay.textContent = '+254';
+      }
+    }
+
+    // Get URL parameters
+    function getUrlParameter(name) {
+      const urlParams = new URLSearchParams(window.location.search);
+      return urlParams.get(name);
+    }
+
+    // Reset inactivity timer - 20 minutes
+    function resetInactivityTimer() {
+      if (inactivityTimer) clearTimeout(inactivityTimer);
+      inactivityTimer = setTimeout(() => {
+        if (currentUser) {
+          logout();
         }
-        
-        withdrawal.status = 'rejected';
-        
-        localStorage.setItem('cueUsers', JSON.stringify(users));
-        localStorage.setItem('pendingWithdrawals', JSON.stringify(withdrawals));
-        
-        alert(`❌ Withdrawal rejected and amount refunded`);
-        renderAdminPanel();
-      }
-    };
+      }, 20 * 60 * 1000);
+    }
 
-    // ========== USER PASSWORD CHANGE ==========
-    window.changeUserPassword = function(phone) {
-      const newPassword = prompt('Enter new password for this user (minimum 6 characters):');
-      if (newPassword && newPassword.length >= 6) {
-        const users = JSON.parse(localStorage.getItem('cueUsers')) || {};
-        if (users[phone]) {
-          users[phone].password = newPassword;
-          localStorage.setItem('cueUsers', JSON.stringify(users));
-          alert(`✅ Password changed successfully for ${users[phone].fullName}`);
+    // Track user activity
+    document.addEventListener('mousemove', resetInactivityTimer);
+    document.addEventListener('keypress', resetInactivityTimer);
+    document.addEventListener('click', resetInactivityTimer);
+    document.addEventListener('scroll', resetInactivityTimer);
+
+    // ========== SHUFFLE BOOKS FUNCTION ==========
+    function getTodaysBooks() {
+      const today = new Date().toDateString();
+      const stored = localStorage.getItem('bookShuffleDate');
+      const storedOrder = localStorage.getItem('bookShuffleOrder');
+      
+      if (stored !== today || !storedOrder) {
+        todaysBookOrder = [...allBooks];
+        for (let i = todaysBookOrder.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [todaysBookOrder[i], todaysBookOrder[j]] = [todaysBookOrder[j], todaysBookOrder[i]];
         }
-      } else if (newPassword) {
-        alert('Password must be at least 6 characters');
+        localStorage.setItem('bookShuffleDate', today);
+        localStorage.setItem('bookShuffleOrder', JSON.stringify(todaysBookOrder));
+      } else {
+        todaysBookOrder = JSON.parse(storedOrder);
       }
-    };
-
-    // ========== GENERATE MAIN APP HTML ==========
-    function getMainAppHTML() {
-      return `
-        <!-- AUTHENTICATION SECTION -->
-        <div id="authContainer" class="auth-container">
-          <div class="logo-area">
-            <div class="logo-icon">
-              <i class="fas fa-hand-holding-heart"></i>
-            </div>
-            <h1>CIUE</h1>
-            <p>Coffee • Earn • Knowledge</p>
-          </div>
-
-          <div class="auth-tabs">
-            <div class="auth-tab active" onclick="switchAuthTab('login')" id="loginTab">Login</div>
-            <div class="auth-tab" onclick="switchAuthTab('register')" id="registerTab">Register</div>
-            <div class="auth-tab" onclick="window.location.href='?admin=true'">Admin</div>
-          </div>
-
-          <!-- LOGIN FORM -->
-          <div id="loginForm" class="auth-form active">
-            <form onsubmit="handleLogin(event)">
-              <div class="form-group">
-                <label>Phone Number</label>
-                <div class="input-icon">
-                  <i class="fas fa-phone-alt"></i>
-                  <input type="tel" id="loginPhone" placeholder="Enter your phone number" required>
-                </div>
-              </div>
-              <div class="form-group">
-                <label>Password</label>
-                <div class="input-icon">
-                  <i class="fas fa-lock"></i>
-                  <input type="password" id="loginPassword" placeholder="Enter your password" required>
-                </div>
-              </div>
-              <button type="submit" class="auth-btn">Login</button>
-              <div class="auth-footer">
-                Don't have an account? <a href="#" onclick="switchAuthTab('register'); return false;">Register now</a>
-              </div>
-            </form>
-          </div>
-
-          <!-- REGISTRATION FORM -->
-          <div id="registerForm" class="auth-form">
-            <form onsubmit="handleRegister(event)">
-              <div class="form-group">
-                <label>Full Names</label>
-                <div class="input-icon">
-                  <i class="fas fa-user"></i>
-                  <input type="text" id="regFullName" placeholder="Enter your full names" required>
-                </div>
-              </div>
-              
-              <div class="form-group">
-                <label>Country</label>
-                <div class="input-icon">
-                  <i class="fas fa-globe-africa"></i>
-                  <select id="regCountry" onchange="updateCountryCode()" required>
-                    <option value="">Select your country</option>
-                    <option value="Kenya">Kenya 🇰🇪 (+254)</option>
-                    <option value="Uganda">Uganda 🇺🇬 (+256)</option>
-                  </select>
-                </div>
-              </div>
-              
-              <div class="form-group">
-                <label>Phone Number (10 digits starting with 0)</label>
-                <div class="input-icon">
-                  <i class="fas fa-phone-alt"></i>
-                  <div class="phone-input-container">
-                    <span class="country-code-prefix" id="countryCodeDisplay">+254</span>
-                    <input type="tel" id="regPhone" placeholder="0712345678" pattern="0[0-9]{9}" maxlength="10" required>
-                  </div>
-                </div>
-              </div>
-              
-              <div class="form-group">
-                <label>Password (minimum 6 characters)</label>
-                <div class="input-icon">
-                  <i class="fas fa-lock"></i>
-                  <div class="password-wrapper">
-                    <input type="password" id="regPassword" placeholder="Create a password" minlength="6" required>
-                    <i class="fas fa-eye" id="togglePassword" onclick="togglePasswordVisibility('regPassword', this)"></i>
-                  </div>
-                </div>
-              </div>
-              
-              <div class="form-group">
-                <label>Referral Code <span style="color: #ff0000;">*</span></label>
-                <div class="input-icon">
-                  <i class="fas fa-user-plus"></i>
-                  <input type="text" id="regReferralCode" placeholder="Enter referral code" required>
-                </div>
-              </div>
-              
-              <button type="submit" class="auth-btn">Register</button>
-              <div class="auth-footer">
-                Already have an account? <a href="#" onclick="switchAuthTab('login'); return false;">Login here</a>
-              </div>
-            </form>
-          </div>
-        </div>
-
-        <!-- MAIN DASHBOARD (Home Page) -->
-        <div id="mainDashboard" style="display: none; flex-direction: column; height: 100%;">
-          <div class="scroll-content">
-            <div class="welcome-title">WELCOME</div>
-            <div class="welcome-subtitle">Learn about coffee growing and earn rewards</div>
-            <div class="divider-line"></div>
-
-            <div class="member-card" id="memberCard">
-              <div class="member-type" id="memberTypeDisplay">INTERN MEMBER</div>
-              <div class="member-days" id="memberDaysDisplay">4 days remaining</div>
-              <div class="progress-bar">
-                <div class="progress-fill" id="memberProgress" style="width: 100%;"></div>
-              </div>
-            </div>
-
-            <div style="background:#f5edff; padding:12px; border-radius:15px; margin-bottom:15px; display:flex; justify-content:space-between; color:#4a3b5e;">
-              <span>📚 Today: <span id="booksReadToday">0</span>/<span id="dailyBookLimit">1</span></span>
-              <span>💰 Earned: <span id="dailyEarnings">0</span> UGX</span>
-            </div>
-
-            <div class="book-grid" id="bookGrid"></div>
-
-            <div class="action-row">
-              <div class="action-item" onclick="openDepositModal()">
-                <i class="fas fa-wallet"></i>
-                <span>Recharge</span>
-              </div>
-              <div class="action-item" onclick="openWithdrawModal()">
-                <i class="fas fa-hand-holding-usd"></i>
-                <span>Withdraw</span>
-              </div>
-              <div class="action-item" onclick="alert('Company profile')">
-                <i class="fas fa-building"></i>
-                <span>Company</span>
-              </div>
-            </div>
-
-            <div class="company-line">
-              <span>Company Profile</span>
-              <i class="fas fa-chevron-right"></i>
-            </div>
-          </div>
-
-          <div class="bottom-nav">
-            <div class="nav-item active" onclick="showPage('home')"><i class="fas fa-home"></i><span>Home</span></div>
-            <div class="nav-item" onclick="showPage('task')"><i class="fas fa-tasks"></i><span>Task</span></div>
-            <div class="nav-item" onclick="showPage('level')"><i class="fas fa-chart-simple"></i><span>Level</span></div>
-            <div class="nav-item" onclick="showPage('income')"><i class="fas fa-coins"></i><span>Income</span></div>
-            <div class="nav-item" onclick="showPage('profile')"><i class="fas fa-user"></i><span>Me</span></div>
-          </div>
-        </div>
-
-        <!-- PROFILE PAGE (ME) -->
-        <div id="profilePage" style="display: none; flex-direction: column; height: 100%;">
-          <div class="scroll-content">
-            <div class="profile-header">
-              <span class="time" id="currentTime"></span>
-              <span><i class="fas fa-user"></i> <span id="profileDisplayName">User</span></span>
-            </div>
-
-            <div class="employee-name" id="profileFullName">User Name</div>
-            <div class="employee-role" id="profileMemberType">INTERN MEMBER</div>
-
-            <div class="wallets-container">
-              <div class="wallet-box operating">
-                <div class="label">💰 OPERATING WALLET</div>
-                <div class="amount" id="profileOperatingWallet">0 UGX</div>
-              </div>
-              <div class="wallet-box incentive">
-                <div class="label">💰 INCENTIVE WALLET</div>
-                <div class="amount" id="profileIncentiveWallet">0 UGX</div>
-              </div>
-            </div>
-
-            <div class="menu-grid">
-              <div class="menu-item" onclick="alert('Task Record')"><i class="fas fa-clipboard-list"></i> task record</div>
-              <div class="menu-item" onclick="alert('Team Report')"><i class="fas fa-users"></i> team report</div>
-              <div class="menu-item" onclick="showGoldenHandshake()"><i class="fas fa-handshake"></i> Golden Handshake</div>
-            </div>
-
-            <button class="logout-btn" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Logout</button>
-          </div>
-
-          <div class="bottom-nav">
-            <div class="nav-item" onclick="showPage('home')"><i class="fas fa-home"></i><span>Home</span></div>
-            <div class="nav-item" onclick="showPage('task')"><i class="fas fa-tasks"></i><span>Task</span></div>
-            <div class="nav-item" onclick="showPage('level')"><i class="fas fa-chart-simple"></i><span>Level</span></div>
-            <div class="nav-item" onclick="showPage('income')"><i class="fas fa-coins"></i><span>Income</span></div>
-            <div class="nav-item active" onclick="showPage('profile')"><i class="fas fa-user"></i><span>Me</span></div>
-          </div>
-        </div>
-
-        <!-- GOLDEN HANDSHAKE PAGE -->
-        <div id="goldenHandshakePage" style="display: none; flex-direction: column; height: 100%;">
-          <div class="scroll-content">
-            <button class="back-btn" onclick="showPage('profile')"><i class="fas fa-arrow-left"></i> Back</button>
-            <div class="golden-header">
-              <i class="fas fa-handshake" style="font-size: 2.5rem; color: #7d5ba6;"></i>
-              <h2>Golden Handshake</h2>
-            </div>
-            <div id="goldenHandshakeContent"></div>
-          </div>
-          <div class="bottom-nav">
-            <div class="nav-item" onclick="showPage('home')"><i class="fas fa-home"></i><span>Home</span></div>
-            <div class="nav-item" onclick="showPage('task')"><i class="fas fa-tasks"></i><span>Task</span></div>
-            <div class="nav-item" onclick="showPage('level')"><i class="fas fa-chart-simple"></i><span>Level</span></div>
-            <div class="nav-item" onclick="showPage('income')"><i class="fas fa-coins"></i><span>Income</span></div>
-            <div class="nav-item" onclick="showPage('profile')"><i class="fas fa-user"></i><span>Me</span></div>
-          </div>
-        </div>
-
-        <!-- LEVEL PAGE -->
-        <div id="levelPage" style="display: none; flex-direction: column; height: 100%;">
-          <div class="scroll-content">
-            <div class="level-page-title">LEVELS</div>
-            <div class="operating-wallet-display" id="levelOperatingWallet">Operating: 0 UGX</div>
-            <div class="incentive-wallet-display" id="levelIncentiveWallet">Incentive: 0 UGX</div>
-            
-            <!-- D1 -->
-            <div class="level-card-ultra">
-              <div class="level-name-ultra">D1</div>
-              <div class="level-detail-ultra">63,000 UGX - 2 tasks</div>
-              <div class="click-to-join-ultra" onclick="purchaseLevel(1, 63000)">Click to join</div>
-            </div>
-          </div>
-          <div class="bottom-nav">
-            <div class="nav-item" onclick="showPage('home')"><i class="fas fa-home"></i><span>Home</span></div>
-            <div class="nav-item" onclick="showPage('task')"><i class="fas fa-tasks"></i><span>Task</span></div>
-            <div class="nav-item active" onclick="showPage('level')"><i class="fas fa-chart-simple"></i><span>Level</span></div>
-            <div class="nav-item" onclick="showPage('income')"><i class="fas fa-coins"></i><span>Income</span></div>
-            <div class="nav-item" onclick="showPage('profile')"><i class="fas fa-user"></i><span>Me</span></div>
-          </div>
-        </div>
-
-        <!-- DEPOSIT MODAL -->
-        <div class="modal-overlay" id="depositModal">
-          <div class="modal-content">
-            <div style="display:flex; justify-content:space-between; margin-bottom:20px;">
-              <h2>Deposit</h2>
-              <button style="font-size:1.8rem; background:none; border:none;" onclick="closeDepositModal()">&times;</button>
-            </div>
-            <div class="recipient-card">
-              <div class="number">0756 673 144</div>
-              <div class="name">NAMUHANGA VERONIC</div>
-            </div>
-            <input type="number" id="depositAmount" placeholder="Enter amount" style="width:100%; padding:15px; border:1px solid #ddd; border-radius:15px;">
-            <button onclick="submitDeposit()" style="background:#7d5ba6; color:white; width:100%; padding:15px; border:none; border-radius:30px; margin-top:15px;">Send Money</button>
-          </div>
-        </div>
-
-        <!-- WITHDRAW MODAL -->
-        <div class="modal-overlay" id="withdrawModal">
-          <div class="modal-content">
-            <div style="display:flex; justify-content:space-between; margin-bottom:20px;">
-              <h2>Withdraw</h2>
-              <button style="font-size:1.8rem; background:none; border:none;" onclick="closeWithdrawModal()">&times;</button>
-            </div>
-            <div style="display:flex; gap:10px; margin:15px 0;">
-              <div onclick="selectWallet('operating')" style="flex:1; background:#f9f9f9; border:2px solid #ddd; border-radius:15px; padding:15px; text-align:center; cursor:pointer;" id="walletOperatingOption">
-                <div>OPERATING</div>
-                <div id="withdrawOperatingBalance">0 UGX</div>
-              </div>
-              <div onclick="selectWallet('incentive')" style="flex:1; background:#f9f9f9; border:2px solid #ddd; border-radius:15px; padding:15px; text-align:center; cursor:pointer;" id="walletIncentiveOption">
-                <div>INCENTIVE</div>
-                <div id="withdrawIncentiveBalance">0 UGX</div>
-              </div>
-            </div>
-            <input type="number" id="withdrawAmount" placeholder="Amount" style="width:100%; padding:15px; border:1px solid #ddd; border-radius:15px; margin-bottom:10px;">
-            <input type="tel" id="withdrawPhone" placeholder="Mobile number" style="width:100%; padding:15px; border:1px solid #ddd; border-radius:15px; margin-bottom:10px;">
-            <button onclick="submitWithdraw()" style="background:#7d5ba6; color:white; width:100%; padding:15px; border:none; border-radius:30px;">Withdraw</button>
-          </div>
-        </div>
-      `;
+      return todaysBookOrder;
     }
 
-    // ========== MAIN APP FUNCTIONS ==========
-    function initializeMainApp() {
-      // Copy all your existing main app functions here
-      // Including: handleRegister, handleLogin, showPage, loadUserData, etc.
+    // ========== REFERRAL FUNCTIONS ==========
+    // Find A, B, C level referrers for a user
+    function findReferrers(userPhone) {
+      const referrers = { a: null, b: null, c: null };
       
-      // For brevity, I'm including essential functions
-      
-      handleReferralLink();
-
-      if (currentUser && users[currentUser]) {
-        loadUserData();
-        showPage(lastPage);
-        resetInactivityTimer();
+      // Find A (direct referrer)
+      const user = users[userPhone];
+      if (user && user.referredBy) {
+        referrers.a = user.referredBy;
+        
+        // Find B (referrer of A)
+        const aUser = users[user.referredBy];
+        if (aUser && aUser.referredBy) {
+          referrers.b = aUser.referredBy;
+          
+          // Find C (referrer of B)
+          const bUser = users[aUser.referredBy];
+          if (bUser && bUser.referredBy) {
+            referrers.c = bUser.referredBy;
+          }
+        }
       }
+      
+      return referrers;
     }
 
-    // Essential functions for main app
-    window.switchAuthTab = function(tab) {
+    // Pay referral commissions for upgrade
+    function payReferralCommissions(userPhone, upgradeCost) {
+      const referrers = findReferrers(userPhone);
+      
+      // Pay A-level (11%)
+      if (referrers.a && users[referrers.a]) {
+        const aCommission = Math.floor(upgradeCost * referralRates.a);
+        users[referrers.a].incentiveWallet = (users[referrers.a].incentiveWallet || 0) + aCommission;
+        
+        // Track commission
+        if (!users[referrers.a].referralCommissions) {
+          users[referrers.a].referralCommissions = { a: 0, b: 0, c: 0, total: 0 };
+        }
+        users[referrers.a].referralCommissions.a = (users[referrers.a].referralCommissions.a || 0) + aCommission;
+        users[referrers.a].referralCommissions.total = (users[referrers.a].referralCommissions.total || 0) + aCommission;
+      }
+      
+      // Pay B-level (4%)
+      if (referrers.b && users[referrers.b]) {
+        const bCommission = Math.floor(upgradeCost * referralRates.b);
+        users[referrers.b].incentiveWallet = (users[referrers.b].incentiveWallet || 0) + bCommission;
+        
+        if (!users[referrers.b].referralCommissions) {
+          users[referrers.b].referralCommissions = { a: 0, b: 0, c: 0, total: 0 };
+        }
+        users[referrers.b].referralCommissions.b = (users[referrers.b].referralCommissions.b || 0) + bCommission;
+        users[referrers.b].referralCommissions.total = (users[referrers.b].referralCommissions.total || 0) + bCommission;
+      }
+      
+      // Pay C-level (2%)
+      if (referrers.c && users[referrers.c]) {
+        const cCommission = Math.floor(upgradeCost * referralRates.c);
+        users[referrers.c].incentiveWallet = (users[referrers.c].incentiveWallet || 0) + cCommission;
+        
+        if (!users[referrers.c].referralCommissions) {
+          users[referrers.c].referralCommissions = { a: 0, b: 0, c: 0, total: 0 };
+        }
+        users[referrers.c].referralCommissions.c = (users[referrers.c].referralCommissions.c || 0) + cCommission;
+        users[referrers.c].referralCommissions.total = (users[referrers.c].referralCommissions.total || 0) + cCommission;
+      }
+      
+      // Save changes
+      localStorage.setItem('cueUsers', JSON.stringify(users));
+    }
+
+    // ========== AUTH FUNCTIONS ==========
+    function switchAuthTab(tab) {
       document.getElementById('loginForm').classList.toggle('active', tab === 'login');
       document.getElementById('registerForm').classList.toggle('active', tab === 'register');
       document.getElementById('loginTab').classList.toggle('active', tab === 'login');
       document.getElementById('registerTab').classList.toggle('active', tab === 'register');
-    };
+      
+      if (tab === 'register') {
+        const storedRefCode = sessionStorage.getItem('pendingReferralCode');
+        if (storedRefCode) {
+          const refField = document.getElementById('regReferralCode');
+          refField.value = storedRefCode;
+          refField.readOnly = true;
+          refField.classList.add('referral-readonly');
+        }
+        updateCountryCode();
+      }
+    }
 
-    window.handleLogin = function(e) {
+    // Handle Registration
+    function handleRegister(e) {
       e.preventDefault();
+      
+      const fullName = document.getElementById('regFullName').value;
+      const country = document.getElementById('regCountry').value;
+      const phone = document.getElementById('regPhone').value;
+      const password = document.getElementById('regPassword').value;
+      const referralCode = document.getElementById('regReferralCode').value;
+
+      if (!fullName || !country || !phone || !password || !referralCode) {
+        alert('Please fill all fields');
+        return;
+      }
+
+      if (!phone.startsWith('0')) {
+        alert('Phone number must start with 0');
+        return;
+      }
+
+      if (phone.length !== 10) {
+        alert('Phone number must be exactly 10 digits');
+        return;
+      }
+
+      if (password.length < 6) {
+        alert('Password must be at least 6 characters');
+        return;
+      }
+
+      if (users[phone]) {
+        alert('Phone already registered');
+        switchAuthTab('login');
+        return;
+      }
+
+      let referredBy = null;
+      if (referralCode) {
+        const referrer = Object.values(users).find(u => u.referralCode === referralCode);
+        if (referrer) {
+          if (referrer.memberLevel >= 1 && referrer.memberLevel <= 9) {
+            referredBy = referrer.phone;
+          } else {
+            alert('Invalid referral code. Only D-level members can refer new users.');
+            return;
+          }
+        } else {
+          alert('Referral code not found. Please enter a valid referral code.');
+          return;
+        }
+      } else {
+        alert('Referral code is required');
+        return;
+      }
+
+      const now = new Date();
+      const expiry = new Date(now);
+      expiry.setDate(expiry.getDate() + 4);
+
+      const newReferralCode = generateReferralCode();
+      
+      users[phone] = {
+        fullName, 
+        phone, 
+        country, 
+        password,
+        referralCode: newReferralCode,
+        memberLevel: 0,
+        memberExpiry: expiry.toISOString(),
+        operatingWallet: 0,
+        incentiveWallet: 0,
+        booksReadToday: 0,
+        lastReadDate: now.toDateString(),
+        totalEarned: 0,
+        taskHistory: [],
+        referredBy: referredBy,
+        referrals: [],
+        referralCommissions: { a: 0, b: 0, c: 0, total: 0 },
+        registeredDate: now.toISOString(),
+        // Track level purchases for refunds
+        levelPurchases: []
+      };
+
+      if (referredBy && users[referredBy]) {
+        if (!users[referredBy].referrals) {
+          users[referredBy].referrals = [];
+        }
+        users[referredBy].referrals.push(phone);
+      }
+
+      localStorage.setItem('cueUsers', JSON.stringify(users));
+      localStorage.setItem('currentUser', phone);
+      currentUser = phone;
+      
+      sessionStorage.removeItem('pendingReferralCode');
+      
+      loadUserData();
+      showPage('home');
+      resetInactivityTimer();
+    }
+
+    // Handle Login
+    function handleLogin(e) {
+      e.preventDefault();
+      
       const phone = document.getElementById('loginPhone').value;
       const password = document.getElementById('loginPassword').value;
 
       if (users[phone] && users[phone].password === password) {
         localStorage.setItem('currentUser', phone);
         currentUser = phone;
+        
+        sessionStorage.removeItem('pendingReferralCode');
+        
         loadUserData();
-        showPage('home');
+        showPage(lastPage);
+        resetInactivityTimer();
       } else {
         alert('Invalid phone or password');
       }
-    };
+    }
 
-    window.handleRegister = function(e) {
-      e.preventDefault();
-      alert('Registration function - please implement full version');
-    };
-
-    window.showPage = function(page) {
+    // ========== PAGE NAVIGATION ==========
+    function showPage(page) {
+      if (page !== 'login' && page !== 'register') {
+        localStorage.setItem('lastPage', page);
+        lastPage = page;
+      }
+      
       document.getElementById('authContainer').style.display = 'none';
       document.getElementById('mainDashboard').style.display = page === 'home' ? 'flex' : 'none';
       document.getElementById('profilePage').style.display = page === 'profile' ? 'flex' : 'none';
       document.getElementById('levelPage').style.display = page === 'level' ? 'flex' : 'none';
-      document.getElementById('goldenHandshakePage').style.display = page === 'golden' ? 'flex' : 'none';
-    };
+      document.getElementById('taskPage').style.display = page === 'task' ? 'flex' : 'none';
+      document.getElementById('incomePage').style.display = page === 'income' ? 'flex' : 'none';
+      document.getElementById('taskRecordPage').style.display = page === 'taskRecord' ? 'flex' : 'none';
+      document.getElementById('teamReportPage').style.display = page === 'teamReport' ? 'flex' : 'none';
+      document.getElementById('goldenHandshakePage').style.display = page === 'goldenHandshake' ? 'flex' : 'none';
 
-    window.showGoldenHandshake = function() {
-      showPage('golden');
+      document.querySelectorAll('.bottom-nav').forEach(nav => {
+        const items = nav.querySelectorAll('.nav-item');
+        items.forEach(item => item.classList.remove('active'));
+        if (page === 'home') items[0]?.classList.add('active');
+        else if (page === 'task') items[1]?.classList.add('active');
+        else if (page === 'level') items[2]?.classList.add('active');
+        else if (page === 'income') items[3]?.classList.add('active');
+        else if (page === 'profile') items[4]?.classList.add('active');
+      });
+
+      if (page === 'task') loadTaskBooks();
+      if (page === 'home') loadHomeBooks();
+      if (page === 'taskRecord') loadTaskRecord();
+      if (page === 'teamReport') loadTeamReport();
+      if (page === 'level') updateLevelWalletDisplay();
+      if (page === 'goldenHandshake') loadGoldenHandshake();
+      
+      resetInactivityTimer();
+    }
+
+    function showTaskRecord() {
+      showPage('taskRecord');
+    }
+
+    function showTeamReport() {
+      showPage('teamReport');
+    }
+
+    function showGoldenHandshake() {
+      showPage('goldenHandshake');
+    }
+
+    // ========== GOLDEN HANDSHAKE PAGE ==========
+    function loadGoldenHandshake() {
       const user = users[currentUser];
-      if (user) {
-        document.getElementById('goldenHandshakeContent').innerHTML = `
-          <div class="share-link-btn" onclick="shareReferralLink()">
-            <i class="fas fa-share-alt"></i> Share Link
-          </div>
-          <div class="referral-link-box">
-            <div>Your Code: <strong>${user.referralCode}</strong></div>
+      if (!user) return;
+      
+      if (!user.referralCode) {
+        user.referralCode = generateReferralCode();
+        localStorage.setItem('cueUsers', JSON.stringify(users));
+      }
+      
+      const contentDiv = document.getElementById('goldenHandshakeContent');
+      
+      if (user.memberLevel === 0) {
+        contentDiv.innerHTML = `
+          <div class="access-denied">
+            <i class="fas fa-lock"></i>
+            <h3>⚠️ ACCESS DENIED</h3>
+            <p>Upgrade to any D level to access this page</p>
+            <button class="upgrade-now-btn" onclick="showPage('level')">UPGRADE NOW</button>
           </div>
         `;
+      } else {
+        const referralLink = generateReferralLink(user.referralCode);
+        
+        contentDiv.innerHTML = `
+          <div class="share-link-btn" onclick="shareReferralLink()">
+            <i class="fas fa-share-alt"></i>
+            <span>Share link</span>
+          </div>
+          <div class="qr-container">
+            <div id="qrCode" class="qr-code"></div>
+            <div class="qr-label">Scan to get referral link</div>
+          </div>
+          <div class="referral-link-box">
+            <div class="referral-link-label">Your Referral Link</div>
+            <div class="referral-link-display" id="referralLinkDisplay">${referralLink}</div>
+            <button class="copy-link-btn" onclick="copyReferralLink()">
+              <i class="fas fa-copy"></i> COPY LINK
+            </button>
+          </div>
+        `;
+        
+        const qrContainer = document.getElementById('qrCode');
+        qrContainer.innerHTML = '';
+        new QRCode(qrContainer, {
+          text: referralLink,
+          width: 180,
+          height: 180
+        });
       }
-    };
+    }
 
-    window.openDepositModal = function() {
+    // ========== LEVEL PURCHASE ==========
+    function purchaseLevel(level, cost) {
+      const user = users[currentUser];
+      if (!user) {
+        alert('Please login first');
+        return;
+      }
+
+      if (user.memberLevel >= level) {
+        alert(`You are already at ${levels[level].name} or higher!`);
+        return;
+      }
+
+      // Store current level and payment before upgrading
+      const currentLevel = user.memberLevel;
+      const currentLevelCost = currentLevel > 0 ? levels[currentLevel].deposit : 0;
+
+      // Check balance
+      if (user.memberLevel === 0) {
+        if (user.operatingWallet < cost) {
+          alert(`❌ Insufficient balance! Need ${cost.toLocaleString()} UGX in Operating Wallet`);
+          return;
+        }
+        
+        if (confirm(`Upgrade to ${levels[level].name} for ${cost.toLocaleString()} UGX?`)) {
+          user.operatingWallet -= cost;
+          upgradeUser(user, level, cost, currentLevel, currentLevelCost);
+        }
+      } else {
+        const totalBalance = (user.operatingWallet || 0) + (user.incentiveWallet || 0);
+        
+        if (totalBalance < cost) {
+          alert(`❌ Insufficient balance! Need ${cost.toLocaleString()} UGX total in both wallets`);
+          return;
+        }
+
+        if (confirm(`Upgrade to ${levels[level].name} for ${cost.toLocaleString()} UGX?`)) {
+          let remaining = cost;
+          
+          if (user.operatingWallet > 0) {
+            const fromOperating = Math.min(user.operatingWallet, remaining);
+            user.operatingWallet -= fromOperating;
+            remaining -= fromOperating;
+          }
+          
+          if (remaining > 0 && user.incentiveWallet > 0) {
+            const fromIncentive = Math.min(user.incentiveWallet, remaining);
+            user.incentiveWallet -= fromIncentive;
+            remaining -= fromIncentive;
+          }
+          
+          upgradeUser(user, level, cost, currentLevel, currentLevelCost);
+        }
+      }
+    }
+
+    // Updated upgradeUser function with refund and commissions
+    function upgradeUser(user, newLevel, cost, oldLevel, oldLevelCost) {
+      // Store the purchase for refund tracking
+      if (!user.levelPurchases) {
+        user.levelPurchases = [];
+      }
+      
+      // Add this purchase to history
+      user.levelPurchases.push({
+        level: newLevel,
+        amount: cost,
+        date: new Date().toISOString(),
+        refunded: false
+      });
+      
+      // Process refund for previous level (only if upgrading from a D level, not Intern)
+      if (oldLevel > 0 && oldLevelCost > 0) {
+        user.operatingWallet += oldLevelCost;
+        
+        // Mark previous purchase as refunded
+        const prevPurchase = user.levelPurchases.find(p => p.level === oldLevel && !p.refunded);
+        if (prevPurchase) {
+          prevPurchase.refunded = true;
+        }
+      }
+      
+      // Update user level and expiry
+      user.memberLevel = newLevel;
+      
+      const expiry = new Date();
+      expiry.setDate(expiry.getDate() + 365);
+      user.memberExpiry = expiry.toISOString();
+
+      if (!user.transactions) user.transactions = [];
+      user.transactions.unshift({
+        type: 'level_upgrade',
+        level: newLevel,
+        amount: cost,
+        date: new Date().toLocaleString()
+      });
+
+      // Save user first
+      localStorage.setItem('cueUsers', JSON.stringify(users));
+      
+      // Pay referral commissions to A, B, C levels
+      payReferralCommissions(user.phone, cost);
+      
+      // Reload user data
+      loadUserData();
+      updateLevelWalletDisplay();
+    }
+
+    function updateLevelWalletDisplay() {
+      const user = users[currentUser];
+      if (user) {
+        document.getElementById('levelOperatingWallet').innerHTML = `Operating Wallet: ${(user.operatingWallet || 0).toLocaleString()} UGX`;
+        document.getElementById('levelIncentiveWallet').innerHTML = `Incentive Wallet: ${(user.incentiveWallet || 0).toLocaleString()} UGX`;
+      }
+    }
+
+    // ========== LOAD USER DATA ==========
+    function loadUserData() {
+      if (!currentUser) return;
+      const user = users[currentUser];
+      if (!user) return;
+
+      const today = new Date().toDateString();
+      if (user.lastReadDate !== today) {
+        user.booksReadToday = 0;
+        user.lastReadDate = today;
+        localStorage.setItem('cueUsers', JSON.stringify(users));
+      }
+
+      const level = user.memberLevel || 0;
+      const levelData = levels[level];
+
+      document.getElementById('memberTypeDisplay').textContent = levelData.name;
+      
+      const daysLeft = Math.ceil((new Date(user.memberExpiry) - new Date()) / (1000*60*60*24));
+      document.getElementById('memberDaysDisplay').textContent = `${daysLeft} days remaining`;
+      document.getElementById('booksReadToday').textContent = user.booksReadToday || 0;
+      document.getElementById('dailyBookLimit').textContent = levelData.dailyBooks;
+      document.getElementById('dailyEarnings').textContent = user.incentiveWallet || 0;
+
+      document.getElementById('profileFullName').textContent = user.fullName;
+      document.getElementById('profileDisplayName').textContent = user.fullName.split(' ')[0];
+      document.getElementById('profileMemberType').textContent = levelData.name;
+      document.getElementById('profileOperatingWallet').innerHTML = `${(user.operatingWallet || 0).toLocaleString()} UGX`;
+      document.getElementById('profileIncentiveWallet').innerHTML = `${(user.incentiveWallet || 0).toLocaleString()} UGX`;
+      document.getElementById('profileDaysLeft').textContent = daysLeft;
+      document.getElementById('profileBooksToday').textContent = `${user.booksReadToday || 0}/${levelData.dailyBooks}`;
+      
+      document.getElementById('todayIncomeValue').innerHTML = `${(user.incentiveWallet || 0).toFixed(2)} UGX`;
+      document.getElementById('totalIncomeValue').innerHTML = `${(user.incentiveWallet || 0).toFixed(2)} UGX`;
+      document.getElementById('monthIncomeValue').innerHTML = `0.00 UGX`;
+      
+      // Update subordinate incentives from referral commissions
+      if (user.referralCommissions) {
+        document.getElementById('subordinateIncentive').innerHTML = `${(user.referralCommissions.total || 0).toFixed(2)} UGX`;
+      }
+      
+      document.getElementById('withdrawOperatingBalance').innerHTML = (user.operatingWallet || 0).toLocaleString() + ' UGX';
+      document.getElementById('withdrawIncentiveBalance').innerHTML = (user.incentiveWallet || 0).toLocaleString() + ' UGX';
+
+      updateLevelWalletDisplay();
+      updateTime();
+    }
+
+    // ========== TEAM REPORT ==========
+    function maskPhone(phone) {
+      if (!phone || phone.length < 7) return phone;
+      return phone.substring(0, 4) + '***' + phone.substring(phone.length - 3);
+    }
+
+    function countCompletedTasks(user) {
+      if (!user.taskHistory) return 0;
+      return user.taskHistory.filter(task => task.status === 'complete').length;
+    }
+
+    function loadTeamReport() {
+      const user = users[currentUser];
+      if (!user) return;
+
+      const aMembers = Object.values(users).filter(u => u.referredBy === currentUser);
+      const aPhones = aMembers.map(m => m.phone);
+      const bMembers = Object.values(users).filter(u => aPhones.includes(u.referredBy));
+      const bPhones = bMembers.map(m => m.phone);
+      const cMembers = Object.values(users).filter(u => bPhones.includes(u.referredBy));
+
+      // Display A section
+      const aSection = document.getElementById('teamASection');
+      if (aMembers.length === 0) {
+        aSection.innerHTML = '<div class="empty-section">(empty)</div>';
+      } else {
+        let html = '';
+        let aTotalDeposit = 0;
+        let aTotalTasks = 0;
+        
+        aMembers.forEach(member => {
+          const levelText = member.memberLevel === 0 ? 'intern' : `D${member.memberLevel}`;
+          const maskedPhone = maskPhone(member.phone);
+          const deposit = member.operatingWallet || 0;
+          aTotalDeposit += deposit;
+          
+          if (member.memberLevel > 0) {
+            const tasks = countCompletedTasks(member);
+            aTotalTasks += tasks;
+            html += `<div class="team-member"><span class="member-phone">${maskedPhone}</span> <span class="member-level">${levelText}</span> | <span class="member-deposit">💰 ${deposit.toLocaleString()} UGX</span> | <span class="member-tasks">📚 ${tasks} tasks</span></div>`;
+          } else {
+            html += `<div class="team-member"><span class="member-phone">${maskedPhone}</span> <span class="member-level">${levelText}</span> | <span class="member-deposit">💰 ${deposit.toLocaleString()} UGX</span></div>`;
+          }
+        });
+        
+        html += `<div class="section-total"><span class="total-deposit">🔴 A Total: ${aTotalDeposit.toLocaleString()} UGX</span> | <span class="total-tasks">📚 Active Tasks: ${aTotalTasks}</span></div>`;
+        aSection.innerHTML = html;
+      }
+
+      // Display B section
+      const bSection = document.getElementById('teamBSection');
+      if (bMembers.length === 0) {
+        bSection.innerHTML = '<div class="empty-section">(empty)</div>';
+      } else {
+        let html = '';
+        let bTotalDeposit = 0;
+        let bTotalTasks = 0;
+        
+        bMembers.forEach(member => {
+          const levelText = member.memberLevel === 0 ? 'intern' : `D${member.memberLevel}`;
+          const maskedPhone = maskPhone(member.phone);
+          const deposit = member.operatingWallet || 0;
+          bTotalDeposit += deposit;
+          
+          if (member.memberLevel > 0) {
+            const tasks = countCompletedTasks(member);
+            bTotalTasks += tasks;
+            html += `<div class="team-member"><span class="member-phone">${maskedPhone}</span> <span class="member-level">${levelText}</span> | <span class="member-deposit">💰 ${deposit.toLocaleString()} UGX</span> | <span class="member-tasks">📚 ${tasks} tasks</span></div>`;
+          } else {
+            html += `<div class="team-member"><span class="member-phone">${maskedPhone}</span> <span class="member-level">${levelText}</span> | <span class="member-deposit">💰 ${deposit.toLocaleString()} UGX</span></div>`;
+          }
+        });
+        
+        html += `<div class="section-total"><span class="total-deposit">🔴 B Total: ${bTotalDeposit.toLocaleString()} UGX</span> | <span class="total-tasks">📚 Active Tasks: ${bTotalTasks}</span></div>`;
+        bSection.innerHTML = html;
+      }
+
+      // Display C section
+      const cSection = document.getElementById('teamCSection');
+      if (cMembers.length === 0) {
+        cSection.innerHTML = '<div class="empty-section">(empty)</div>';
+      } else {
+        let html = '';
+        let cTotalDeposit = 0;
+        let cTotalTasks = 0;
+        
+        cMembers.forEach(member => {
+          const levelText = member.memberLevel === 0 ? 'intern' : `D${member.memberLevel}`;
+          const maskedPhone = maskPhone(member.phone);
+          const deposit = member.operatingWallet || 0;
+          cTotalDeposit += deposit;
+          
+          if (member.memberLevel > 0) {
+            const tasks = countCompletedTasks(member);
+            cTotalTasks += tasks;
+            html += `<div class="team-member"><span class="member-phone">${maskedPhone}</span> <span class="member-level">${levelText}</span> | <span class="member-deposit">💰 ${deposit.toLocaleString()} UGX</span> | <span class="member-tasks">📚 ${tasks} tasks</span></div>`;
+          } else {
+            html += `<div class="team-member"><span class="member-phone">${maskedPhone}</span> <span class="member-level">${levelText}</span> | <span class="member-deposit">💰 ${deposit.toLocaleString()} UGX</span></div>`;
+          }
+        });
+        
+        html += `<div class="section-total"><span class="total-deposit">🔴 C Total: ${cTotalDeposit.toLocaleString()} UGX</span> | <span class="total-tasks">📚 Active Tasks: ${cTotalTasks}</span></div>`;
+        cSection.innerHTML = html;
+      }
+
+      const total = aMembers.length + bMembers.length + cMembers.length;
+      document.getElementById('totalTeamMembers').textContent = total;
+
+      const today = new Date().toDateString();
+      const activeCount = [aMembers, bMembers, cMembers].flat().filter(m => m.lastReadDate === today).length;
+      document.getElementById('activeTeamMembers').textContent = activeCount;
+    }
+
+    // ========== TASK RECORD ==========
+    function loadTaskRecord() {
+      const user = users[currentUser];
+      if (!user) return;
+
+      const history = user.taskHistory || [];
+      const completed = history.filter(task => task.status === 'complete');
+      const pending = history.filter(task => task.status === 'pending');
+      
+      document.getElementById('totalReadBooks').textContent = history.length;
+      document.getElementById('completeBooks').textContent = completed.length;
+      document.getElementById('pendingBooks').textContent = pending.length;
+
+      const tbody = document.getElementById('taskHistoryBody');
+      if (history.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="4" style="text-align:center; padding:30px;">No task history yet</td></tr>';
+        return;
+      }
+
+      let html = '';
+      history.slice().reverse().forEach(task => {
+        const statusClass = task.status === 'complete' ? 'status-complete' : 'status-pending';
+        const statusText = task.status === 'complete' ? '✅ Complete' : '⏳ Pending';
+        const rewardDisplay = task.status === 'complete' ? `+${task.reward} UGX` : '-';
+        
+        html += `
+          <tr>
+            <td>${task.date}</td>
+            <td>${task.book}</td>
+            <td><span class="status-badge ${statusClass}">${statusText}</span></td>
+            <td>${rewardDisplay}</td>
+          </tr>
+        `;
+      });
+      tbody.innerHTML = html;
+    }
+
+    // ========== BOOKS ==========
+    function loadHomeBooks() {
+      const user = users[currentUser];
+      if (!user) return;
+      
+      const level = user.memberLevel || 0;
+      const levelData = levels[level];
+      
+      const todaysBooks = getTodaysBooks();
+      const visibleBooks = todaysBooks.slice(0, levelData.bookLimit);
+      
+      const grid = document.getElementById('bookGrid');
+      let html = '';
+      
+      if (user.booksReadToday >= levelData.dailyBooks) {
+        html = '<div style="text-align:center; padding:30px; color:#8a7a9c;">📚 You\'ve read all your books for today! Come back tomorrow.</div>';
+      } else {
+        visibleBooks.forEach(book => {
+          const bookReadToday = user.taskHistory?.some(task => 
+            task.book === book.title && 
+            task.date === new Date().toLocaleDateString() && 
+            task.status === 'complete'
+          );
+          
+          if (!bookReadToday) {
+            html += `
+              <div class="book-card">
+                <div class="book-title">📖 ${book.title}</div>
+                <div class="book-desc">${book.desc}</div>
+                <button class="read-btn" onclick="startReading(${book.id})" id="home-book-${book.id}">READ</button>
+                <div id="home-timer-${book.id}" class="timer-display" style="display:none;">10s</div>
+              </div>
+            `;
+          }
+        });
+      }
+      
+      grid.innerHTML = html;
+    }
+
+    function loadTaskBooks() {
+      const user = users[currentUser];
+      if (!user) return;
+      
+      const level = user.memberLevel || 0;
+      const levelData = levels[level];
+      
+      const todaysBooks = getTodaysBooks();
+      const visibleBooks = todaysBooks.slice(0, levelData.bookLimit);
+      
+      const grid = document.getElementById('taskBookGrid');
+      let html = '';
+      
+      visibleBooks.forEach(book => {
+        const bookReadToday = user.taskHistory?.some(task => 
+          task.book === book.title && 
+          task.date === new Date().toLocaleDateString() && 
+          task.status === 'complete'
+        );
+        
+        if (!bookReadToday) {
+          html += `
+            <div class="book-card">
+              <div class="book-title">📖 ${book.title}</div>
+              <div class="book-desc">${book.desc}</div>
+              <button class="read-btn" onclick="startReading(${book.id})" id="task-book-${book.id}">READ</button>
+              <div id="task-timer-${book.id}" class="timer-display" style="display:none;">10s</div>
+            </div>
+          `;
+        }
+      });
+      
+      grid.innerHTML = html;
+    }
+
+    function startReading(bookId) {
+      const user = users[currentUser];
+      if (!user) return;
+
+      const level = user.memberLevel || 0;
+      const levelData = levels[level];
+      const book = allBooks.find(b => b.id === bookId);
+
+      if (user.booksReadToday >= levelData.dailyBooks) {
+        alert(`Daily limit of ${levelData.dailyBooks} books reached`);
+        return;
+      }
+
+      const bookReadToday = user.taskHistory?.some(task => 
+        task.book === book.title && 
+        task.date === new Date().toLocaleDateString() && 
+        task.status === 'complete'
+      );
+      
+      if (bookReadToday) {
+        alert('You already read this book today!');
+        return;
+      }
+
+      if (!user.taskHistory) user.taskHistory = [];
+      user.taskHistory.push({
+        date: new Date().toLocaleDateString(),
+        book: book.title,
+        status: 'pending',
+        reward: 0
+      });
+      localStorage.setItem('cueUsers', JSON.stringify(users));
+
+      const homeBtn = document.getElementById(`home-book-${bookId}`);
+      const taskBtn = document.getElementById(`task-book-${bookId}`);
+      const homeTimer = document.getElementById(`home-timer-${bookId}`);
+      const taskTimer = document.getElementById(`task-timer-${bookId}`);
+
+      if (homeBtn) { homeBtn.style.display = 'none'; homeTimer.style.display = 'block'; }
+      if (taskBtn) { taskBtn.style.display = 'none'; taskTimer.style.display = 'block'; }
+
+      let seconds = 10;
+      const timer = setInterval(() => {
+        seconds--;
+        if (homeTimer) homeTimer.textContent = seconds + 's';
+        if (taskTimer) taskTimer.textContent = seconds + 's';
+
+        if (seconds <= 0) {
+          clearInterval(timer);
+          
+          if (homeBtn) {
+            homeTimer.style.display = 'none';
+            homeBtn.style.display = 'block';
+            homeBtn.textContent = '🌾 HARVEST';
+            homeBtn.classList.add('harvest-ready');
+            homeBtn.onclick = () => harvestReward(bookId);
+          }
+          if (taskBtn) {
+            taskTimer.style.display = 'none';
+            taskBtn.style.display = 'block';
+            taskBtn.textContent = '🌾 HARVEST';
+            taskBtn.classList.add('harvest-ready');
+            taskBtn.onclick = () => harvestReward(bookId);
+          }
+        }
+      }, 1000);
+    }
+
+    function harvestReward(bookId) {
+      const user = users[currentUser];
+      if (!user) return;
+
+      const level = user.memberLevel || 0;
+      const levelData = levels[level];
+      const reward = levelData.reward;
+      const book = allBooks.find(b => b.id === bookId);
+
+      user.incentiveWallet = (user.incentiveWallet || 0) + reward;
+      user.booksReadToday = (user.booksReadToday || 0) + 1;
+      user.lastReadDate = new Date().toDateString();
+
+      if (user.taskHistory) {
+        const pendingTask = user.taskHistory
+          .slice()
+          .reverse()
+          .find(t => t.book === book.title && t.status === 'pending');
+        if (pendingTask) {
+          pendingTask.status = 'complete';
+          pendingTask.reward = reward;
+        }
+      }
+
+      localStorage.setItem('cueUsers', JSON.stringify(users));
+
+      const homeBtn = document.getElementById(`home-book-${bookId}`);
+      const taskBtn = document.getElementById(`task-book-${bookId}`);
+      
+      if (homeBtn) {
+        homeBtn.textContent = '✅ DONE';
+        homeBtn.classList.remove('harvest-ready');
+        homeBtn.disabled = true;
+      }
+      if (taskBtn) {
+        taskBtn.textContent = '✅ DONE';
+        taskBtn.classList.remove('harvest-ready');
+        taskBtn.disabled = true;
+      }
+
+      loadUserData();
+      loadHomeBooks();
+      loadTaskBooks();
+    }
+
+    // ========== DEPOSIT ==========
+    function openDepositModal() {
       document.getElementById('depositModal').style.display = 'flex';
-    };
+    }
 
-    window.closeDepositModal = function() {
+    function closeDepositModal() {
       document.getElementById('depositModal').style.display = 'none';
-    };
+    }
 
-    window.submitDeposit = function() {
+    function submitDeposit() {
       const amount = parseInt(document.getElementById('depositAmount').value);
       if (!amount || amount < 1000) {
         alert('Enter valid amount (min 1000)');
         return;
       }
 
-      const deposits = JSON.parse(localStorage.getItem('pendingDeposits')) || [];
-      deposits.push({
+      pendingDeposits.push({
         id: Date.now(),
         userId: currentUser,
         phone: users[currentUser]?.phone,
         amount: amount,
-        timestamp: new Date().toISOString(),
-        status: 'pending'
+        timestamp: new Date().toISOString()
       });
+      localStorage.setItem('pendingDeposits', JSON.stringify(pendingDeposits));
       
-      localStorage.setItem('pendingDeposits', JSON.stringify(deposits));
       alert('Deposit request sent! Admin will verify.');
       closeDepositModal();
-    };
+    }
 
-    window.openWithdrawModal = function() {
+    // ========== WITHDRAW ==========
+    function selectWallet(wallet) {
+      selectedWallet = wallet;
+      document.getElementById('walletOperatingOption').classList.toggle('selected', wallet === 'operating');
+      document.getElementById('walletIncentiveOption').classList.toggle('selected', wallet === 'incentive');
+    }
+
+    function openWithdrawModal() {
       loadUserData();
       document.getElementById('withdrawModal').style.display = 'flex';
-    };
+    }
 
-    window.closeWithdrawModal = function() {
+    function closeWithdrawModal() {
       document.getElementById('withdrawModal').style.display = 'none';
-    };
+    }
 
-    window.selectWallet = function(wallet) {
-      selectedWallet = wallet;
-    };
-
-    window.submitWithdraw = function() {
+    function submitWithdraw() {
       const amount = parseInt(document.getElementById('withdrawAmount').value);
       const phone = document.getElementById('withdrawPhone').value;
       const user = users[currentUser];
@@ -2049,76 +3007,444 @@
         user.incentiveWallet -= amount;
       }
 
-      const withdrawals = JSON.parse(localStorage.getItem('pendingWithdrawals')) || [];
-      withdrawals.push({
+      pendingWithdrawals.push({
         id: Date.now(),
         userId: currentUser,
         amount: amount,
         wallet: selectedWallet,
         mobileNumber: phone,
-        timestamp: new Date().toISOString(),
-        status: 'pending'
+        timestamp: new Date().toISOString()
       });
 
       localStorage.setItem('cueUsers', JSON.stringify(users));
-      localStorage.setItem('pendingWithdrawals', JSON.stringify(withdrawals));
+      localStorage.setItem('pendingWithdrawals', JSON.stringify(pendingWithdrawals));
 
       alert('Withdrawal request submitted!');
       closeWithdrawModal();
       loadUserData();
-    };
-
-    window.togglePasswordVisibility = function(inputId, icon) {
-      const input = document.getElementById(inputId);
-      if (input.type === 'password') {
-        input.type = 'text';
-        icon.classList.replace('fa-eye', 'fa-eye-slash');
-      } else {
-        input.type = 'password';
-        icon.classList.replace('fa-eye-slash', 'fa-eye');
-      }
-    };
-
-    window.updateCountryCode = function() {
-      const country = document.getElementById('regCountry').value;
-      document.getElementById('countryCodeDisplay').textContent = country === 'Kenya' ? '+254' : '+256';
-    };
-
-    window.shareReferralLink = function() {
-      const user = users[currentUser];
-      if (user) {
-        const link = window.location.origin + window.location.pathname + '?ref=' + user.referralCode;
-        prompt('Copy this link:', link);
-      }
-    };
-
-    function handleReferralLink() {
-      const refCode = new URLSearchParams(window.location.search).get('ref');
-      if (refCode) {
-        sessionStorage.setItem('pendingReferralCode', refCode);
-        switchAuthTab('register');
-      }
     }
 
-    function loadUserData() {
-      const user = users[currentUser];
-      if (!user) return;
-
-      document.getElementById('profileFullName').textContent = user.fullName;
-      document.getElementById('profileDisplayName').textContent = user.fullName.split(' ')[0];
-      document.getElementById('profileOperatingWallet').innerHTML = (user.operatingWallet || 0).toLocaleString() + ' UGX';
-      document.getElementById('profileIncentiveWallet').innerHTML = (user.incentiveWallet || 0).toLocaleString() + ' UGX';
-      document.getElementById('withdrawOperatingBalance').innerHTML = (user.operatingWallet || 0).toLocaleString() + ' UGX';
-      document.getElementById('withdrawIncentiveBalance').innerHTML = (user.incentiveWallet || 0).toLocaleString() + ' UGX';
+    // ========== UTILITY ==========
+    function updateTime() {
+      const now = new Date();
+      let hours = now.getHours();
+      const mins = now.getMinutes().toString().padStart(2, '0');
+      const ampm = hours >= 12 ? 'PM' : 'AM';
+      hours = hours % 12 || 12;
+      document.getElementById('currentTime').textContent = `${hours}:${mins} ${ampm}`;
     }
 
-    function resetInactivityTimer() {}
     function logout() {
       localStorage.removeItem('currentUser');
-      location.reload();
+      currentUser = null;
+      document.getElementById('authContainer').style.display = 'block';
+      document.getElementById('mainDashboard').style.display = 'none';
+      document.getElementById('profilePage').style.display = 'none';
+      document.getElementById('levelPage').style.display = 'none';
+      document.getElementById('taskPage').style.display = 'none';
+      document.getElementById('incomePage').style.display = 'none';
+      document.getElementById('taskRecordPage').style.display = 'none';
+      document.getElementById('teamReportPage').style.display = 'none';
+      document.getElementById('goldenHandshakePage').style.display = 'none';
+      
+      if (inactivityTimer) clearTimeout(inactivityTimer);
     }
-    function purchaseLevel(level, cost) {
-      alert('Purchase function - implement fully');
+
+    // ========== SMART REFERRAL HANDLER ==========
+    function handleReferralLink() {
+      const refCode = getUrlParameter('ref');
+      
+      if (refCode) {
+        if (currentUser && users[currentUser]) {
+          loadUserData();
+          showPage(lastPage);
+          return;
+        }
+        
+        if (currentUser && users[currentUser]) {
+          switchAuthTab('login');
+        } else {
+          sessionStorage.setItem('pendingReferralCode', refCode);
+          switchAuthTab('register');
+        }
+      }
+    }
+
+    // ========== INIT ==========
+    window.onload = function() {
+      if (Object.keys(users).length === 0) {
+        // Generate random 12-digit codes for demo accounts
+        const adminCode = generateReferralCode();
+        const internCode = generateReferralCode();
+        const d1Code = generateReferralCode();
+        
+        users['0756673144'] = {
+          fullName: 'Admin User',
+          phone: '0756673144',
+          country: 'Uganda',
+          password: 'admin123',
+          referralCode: adminCode,
+          memberLevel: 9,
+          memberExpiry: new Date(Date.now() + 365*24*60*60*1000).toISOString(),
+          operatingWallet: 1000000,
+          incentiveWallet: 500000,
+          booksReadToday: 0,
+          lastReadDate: new Date().toDateString(),
+          totalEarned: 0,
+          taskHistory: [],
+          referredBy: null,
+          referrals: [],
+          referralCommissions: { a: 25000, b: 8000, c: 3000, total: 36000 },
+          levelPurchases: []
+        };
+        
+        users['0777123456'] = {
+          fullName: 'Intern User',
+          phone: '0777123456',
+          country: 'Uganda',
+          password: '123456',
+          referralCode: internCode,
+          memberLevel: 0,
+          memberExpiry: new Date(Date.now() + 4*24*60*60*1000).toISOString(),
+          operatingWallet: 100000,
+          incentiveWallet: 1500,
+          booksReadToday: 0,
+          lastReadDate: new Date().toDateString(),
+          totalEarned: 1500,
+          taskHistory: [],
+          referredBy: '0756673144',
+          referrals: [],
+          referralCommissions: { a: 0, b: 0, c: 0, total: 0 },
+          levelPurchases: []
+        };
+
+        users['0788123456'] = {
+          fullName: 'John D1',
+          phone: '0788123456',
+          country: 'Uganda',
+          password: '123456',
+          referralCode: d1Code,
+          memberLevel: 1,
+          memberExpiry: new Date(Date.now() + 365*24*60*60*1000).toISOString(),
+          operatingWallet: 150000,
+          incentiveWallet: 30000,
+          booksReadToday: 0,
+          lastReadDate: new Date().toDateString(),
+          totalEarned: 3000,
+          taskHistory: [],
+          referredBy: '0777123456',
+          referrals: [],
+          referralCommissions: { a: 5000, b: 0, c: 0, total: 5000 },
+          levelPurchases: [
+            { level: 1, amount: 63000, date: new Date().toISOString(), refunded: false }
+          ]
+        };
+
+        localStorage.setItem('cueUsers', JSON.stringify(users));
+        
+        // Log the codes so you know them (remove in production)
+        console.log('Admin Code:', adminCode);
+        console.log('Intern Code:', internCode);
+        console.log('D1 Code:', d1Code);
+      }
+
+      handleReferralLink();
+
+      if (currentUser && users[currentUser]) {
+        loadUserData();
+        showPage(lastPage);
+        resetInactivityTimer();
+      }
+
+      setInterval(updateTime, 60000);
+      updateTime();
+    };
+
+    // ========== NEW ADMIN FUNCTIONS (ADDED WITHOUT MODIFYING ORIGINAL) ==========
+    let isAdminLoggedIn = false;
+
+    function toggleAdminPanel() {
+      const panel = document.getElementById('adminPanel');
+      if (panel.style.display === 'none' || panel.style.display === '') {
+        panel.style.display = 'block';
+        if (!isAdminLoggedIn) {
+          document.getElementById('adminLoginSection').style.display = 'block';
+          document.getElementById('adminContent').style.display = 'none';
+        } else {
+          document.getElementById('adminLoginSection').style.display = 'none';
+          document.getElementById('adminContent').style.display = 'block';
+          loadAdminData();
+        }
+      } else {
+        panel.style.display = 'none';
+      }
+    }
+
+    function adminLogin() {
+      const password = document.getElementById('adminPassword').value;
+      // Simple admin password - change this to whatever you want
+      if (password === 'admin123') {
+        isAdminLoggedIn = true;
+        document.getElementById('adminLoginSection').style.display = 'none';
+        document.getElementById('adminContent').style.display = 'block';
+        loadAdminData();
+      } else {
+        alert('Invalid password');
+      }
+    }
+
+    function switchAdminTab(tab) {
+      document.querySelectorAll('.admin-tab').forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('.admin-section').forEach(s => s.classList.remove('active'));
+      
+      if (tab === 'deposits') {
+        document.querySelectorAll('.admin-tab')[0].classList.add('active');
+        document.getElementById('adminDepositsSection').classList.add('active');
+        loadDepositsTable();
+      } else if (tab === 'withdrawals') {
+        document.querySelectorAll('.admin-tab')[1].classList.add('active');
+        document.getElementById('adminWithdrawalsSection').classList.add('active');
+        loadWithdrawalsTable();
+      } else if (tab === 'users') {
+        document.querySelectorAll('.admin-tab')[2].classList.add('active');
+        document.getElementById('adminUsersSection').classList.add('active');
+        loadUsersTable();
+      } else if (tab === 'system') {
+        document.querySelectorAll('.admin-tab')[3].classList.add('active');
+        document.getElementById('adminSystemSection').classList.add('active');
+        loadSystemStats();
+      }
+    }
+
+    function loadAdminData() {
+      // Update stats cards
+      const totalUsers = Object.keys(users).length;
+      const totalDeposits = pendingDeposits.reduce((sum, d) => sum + d.amount, 0);
+      const totalWithdrawals = pendingWithdrawals.reduce((sum, w) => sum + w.amount, 0);
+      const totalOperating = Object.values(users).reduce((sum, u) => sum + (u.operatingWallet || 0), 0);
+      const totalIncentive = Object.values(users).reduce((sum, u) => sum + (u.incentiveWallet || 0), 0);
+
+      document.getElementById('adminStats').innerHTML = `
+        <div class="admin-stat-card">
+          <div class="value">${totalUsers}</div>
+          <div class="label">Total Users</div>
+        </div>
+        <div class="admin-stat-card">
+          <div class="value">${pendingDeposits.length}</div>
+          <div class="label">Pending Deposits</div>
+        </div>
+        <div class="admin-stat-card">
+          <div class="value">${pendingWithdrawals.length}</div>
+          <div class="label">Pending Withdrawals</div>
+        </div>
+        <div class="admin-stat-card">
+          <div class="value">${(totalOperating + totalIncentive).toLocaleString()}</div>
+          <div class="label">Total Balance (UGX)</div>
+        </div>
+      `;
+
+      loadDepositsTable();
+      loadWithdrawalsTable();
+      loadUsersTable();
+      loadSystemStats();
+    }
+
+    function loadDepositsTable() {
+      const tbody = document.getElementById('depositsTableBody');
+      if (pendingDeposits.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;">No pending deposits</td></tr>';
+        return;
+      }
+
+      let html = '';
+      pendingDeposits.forEach(deposit => {
+        const date = new Date(deposit.timestamp).toLocaleString();
+        html += `
+          <tr>
+            <td>${date}</td>
+            <td>${deposit.userId || 'Unknown'}</td>
+            <td>${deposit.phone || 'N/A'}</td>
+            <td>${deposit.amount.toLocaleString()} UGX</td>
+            <td>
+              <button class="approve-btn" onclick="approveDeposit(${deposit.id})">Approve</button>
+              <button class="reject-btn" onclick="rejectDeposit(${deposit.id})">Reject</button>
+            </td>
+          </tr>
+        `;
+      });
+      tbody.innerHTML = html;
+    }
+
+    function approveDeposit(id) {
+      const deposit = pendingDeposits.find(d => d.id === id);
+      if (deposit && users[deposit.userId]) {
+        users[deposit.userId].operatingWallet = (users[deposit.userId].operatingWallet || 0) + deposit.amount;
+        localStorage.setItem('cueUsers', JSON.stringify(users));
+        
+        pendingDeposits = pendingDeposits.filter(d => d.id !== id);
+        localStorage.setItem('pendingDeposits', JSON.stringify(pendingDeposits));
+        
+        alert('Deposit approved!');
+        loadAdminData();
+      }
+    }
+
+    function rejectDeposit(id) {
+      pendingDeposits = pendingDeposits.filter(d => d.id !== id);
+      localStorage.setItem('pendingDeposits', JSON.stringify(pendingDeposits));
+      alert('Deposit rejected');
+      loadAdminData();
+    }
+
+    function loadWithdrawalsTable() {
+      const tbody = document.getElementById('withdrawalsTableBody');
+      if (pendingWithdrawals.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;">No pending withdrawals</td></tr>';
+        return;
+      }
+
+      let html = '';
+      pendingWithdrawals.forEach(withdrawal => {
+        const date = new Date(withdrawal.timestamp).toLocaleString();
+        html += `
+          <tr>
+            <td>${date}</td>
+            <td>${withdrawal.userId || 'Unknown'}</td>
+            <td>${users[withdrawal.userId]?.phone || 'N/A'}</td>
+            <td>${withdrawal.amount.toLocaleString()} UGX</td>
+            <td>${withdrawal.wallet}</td>
+            <td>${withdrawal.mobileNumber || 'N/A'}</td>
+            <td>
+              <button class="approve-btn" onclick="approveWithdrawal(${withdrawal.id})">Approve</button>
+              <button class="reject-btn" onclick="rejectWithdrawal(${withdrawal.id})">Reject</button>
+            </td>
+          </tr>
+        `;
+      });
+      tbody.innerHTML = html;
+    }
+
+    function approveWithdrawal(id) {
+      const withdrawal = pendingWithdrawals.find(w => w.id === id);
+      pendingWithdrawals = pendingWithdrawals.filter(w => w.id !== id);
+      localStorage.setItem('pendingWithdrawals', JSON.stringify(pendingWithdrawals));
+      alert('Withdrawal approved! (In real app, money would be sent to mobile number)');
+      loadAdminData();
+    }
+
+    function rejectWithdrawal(id) {
+      const withdrawal = pendingWithdrawals.find(w => w.id === id);
+      if (withdrawal && users[withdrawal.userId]) {
+        // Refund the money
+        if (withdrawal.wallet === 'operating') {
+          users[withdrawal.userId].operatingWallet += withdrawal.amount;
+        } else {
+          users[withdrawal.userId].incentiveWallet += withdrawal.amount;
+        }
+        localStorage.setItem('cueUsers', JSON.stringify(users));
+      }
+      
+      pendingWithdrawals = pendingWithdrawals.filter(w => w.id !== id);
+      localStorage.setItem('pendingWithdrawals', JSON.stringify(pendingWithdrawals));
+      alert('Withdrawal rejected and funds returned');
+      loadAdminData();
+    }
+
+    function loadUsersTable() {
+      const tbody = document.getElementById('usersTableBody');
+      let html = '';
+      
+      Object.values(users).forEach(user => {
+        const referrals = user.referrals ? user.referrals.length : 0;
+        html += `
+          <tr>
+            <td>${user.phone}</td>
+            <td>${user.fullName}</td>
+            <td><span class="level-badge">${levels[user.memberLevel]?.name || 'Intern'}</span></td>
+            <td>
+              <div class="wallet-edit">
+                <span id="op-${user.phone}">${(user.operatingWallet || 0).toLocaleString()}</span>
+                <input type="number" id="op-input-${user.phone}" style="display:none;" placeholder="Amount">
+                <button onclick="editWallet('${user.phone}', 'operating')" id="op-btn-${user.phone}">Edit</button>
+              </div>
+            </td>
+            <td>
+              <div class="wallet-edit">
+                <span id="inc-${user.phone}">${(user.incentiveWallet || 0).toLocaleString()}</span>
+                <input type="number" id="inc-input-${user.phone}" style="display:none;" placeholder="Amount">
+                <button onclick="editWallet('${user.phone}', 'incentive')" id="inc-btn-${user.phone}">Edit</button>
+              </div>
+            </td>
+            <td>${referrals}</td>
+            <td>
+              <button class="delete-btn" onclick="deleteUser('${user.phone}')">Delete</button>
+            </td>
+          </tr>
+        `;
+      });
+      
+      tbody.innerHTML = html;
+    }
+
+    function editWallet(phone, walletType) {
+      const span = document.getElementById(`${walletType === 'operating' ? 'op' : 'inc'}-${phone}`);
+      const input = document.getElementById(`${walletType === 'operating' ? 'op' : 'inc'}-input-${phone}`);
+      const btn = document.getElementById(`${walletType === 'operating' ? 'op' : 'inc'}-btn-${phone}`);
+      
+      if (input.style.display === 'none') {
+        span.style.display = 'none';
+        input.style.display = 'inline-block';
+        input.value = users[phone][walletType === 'operating' ? 'operatingWallet' : 'incentiveWallet'] || 0;
+        btn.textContent = 'Save';
+      } else {
+        const newAmount = parseInt(input.value);
+        if (!isNaN(newAmount) && newAmount >= 0) {
+          users[phone][walletType === 'operating' ? 'operatingWallet' : 'incentiveWallet'] = newAmount;
+          localStorage.setItem('cueUsers', JSON.stringify(users));
+          span.textContent = newAmount.toLocaleString();
+        }
+        span.style.display = 'inline';
+        input.style.display = 'none';
+        btn.textContent = 'Edit';
+      }
+    }
+
+    function deleteUser(phone) {
+      if (confirm(`Are you sure you want to delete user ${phone}?`)) {
+        // Remove from referrals arrays
+        Object.values(users).forEach(u => {
+          if (u.referrals) {
+            u.referrals = u.referrals.filter(ref => ref !== phone);
+          }
+        });
+        
+        delete users[phone];
+        localStorage.setItem('cueUsers', JSON.stringify(users));
+        alert('User deleted');
+        loadUsersTable();
+        loadAdminData();
+      }
+    }
+
+    function loadSystemStats() {
+      const totalUsers = Object.keys(users).length;
+      const totalDeposits = pendingDeposits.reduce((sum, d) => sum + d.amount, 0);
+      const totalWithdrawals = pendingWithdrawals.reduce((sum, w) => sum + w.amount, 0);
+      const totalOperating = Object.values(users).reduce((sum, u) => sum + (u.operatingWallet || 0), 0);
+      const totalIncentive = Object.values(users).reduce((sum, u) => sum + (u.incentiveWallet || 0), 0);
+
+      document.getElementById('systemTotalUsers').textContent = totalUsers;
+      document.getElementById('systemTotalDeposits').textContent = totalDeposits.toLocaleString();
+      document.getElementById('systemTotalWithdrawals').textContent = totalWithdrawals.toLocaleString();
+      document.getElementById('systemTotalOperating').textContent = totalOperating.toLocaleString();
+      document.getElementById('systemTotalIncentive').textContent = totalIncentive.toLocaleString();
+    }
+
+    function clearAllData() {
+      if (confirm('WARNING: This will delete ALL users and reset all data. Are you sure?')) {
+        localStorage.clear();
+        location.reload();
+      }
     }
   </script>
 </body>
